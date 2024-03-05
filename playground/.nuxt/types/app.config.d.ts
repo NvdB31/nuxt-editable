@@ -5,7 +5,7 @@ import cfg0 from "/Users/nickvandenberg/Development/nuxt-editable/playground/app
 
 declare const inlineConfig = {
   "nuxt": {
-    "buildId": "78cb6a55-a783-4156-bd72-9bc0b86c6202"
+    "buildId": "dev"
   },
   "ui": {
     "primary": "green",

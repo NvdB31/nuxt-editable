@@ -1,9 +1,9 @@
 import * as _nuxt_schema from '@nuxt/schema';
 
-interface EditableModuleOptions {
-    configPath: string;
-}
-
-declare const _default: _nuxt_schema.NuxtModule<EditableModuleOptions>;
+declare const _default: _nuxt_schema.NuxtModule<{
+    collections: {};
+    ui: {};
+    log: boolean;
+}>;
 
 export { _default as default };

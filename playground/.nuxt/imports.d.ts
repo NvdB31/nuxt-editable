@@ -38,3 +38,4 @@ export { useTimer } from '../../node_modules/@nuxt/ui/dist/runtime/composables/u
 export { useToast } from '../../node_modules/@nuxt/ui/dist/runtime/composables/useToast';
 export { useUI } from '../../node_modules/@nuxt/ui/dist/runtime/composables/useUI';
 export { useColorMode } from '../../node_modules/@nuxtjs/color-mode/dist/runtime/composables';
+export { useNuxtDevTools } from '../../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools';

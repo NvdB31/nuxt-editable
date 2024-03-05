@@ -1,6 +1,6 @@
-import type { EditableConfig, EditableCollection, EditableCollectionSchema } from '../src/types'
+import type { EditableConfig } from '../src/types'
 
-export default <EditableConfig>{
+export default <any>{
   collections: {
     posts: {
       name: {
@@ -27,8 +27,8 @@ export default <EditableConfig>{
           type: 'rich-text',
           help: 'The content of the post'
         }
-      } as EditableCollectionSchema // Add type assertion here
-    } as EditableCollection // Add type assertion here
+      }
+    },
   },
   
   log: true

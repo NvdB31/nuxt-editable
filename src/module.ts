@@ -1,26 +1,28 @@
 import { defineNuxtModule, addPlugin, createResolver, addImportsDir, installModule, addComponent } from '@nuxt/kit'
-import type { EditableModuleOptions } from './types/module'
+import type { EditableConfig } from './types'
 
-export default defineNuxtModule<EditableModuleOptions>({
+export default defineNuxtModule({
   meta: {
     name: 'nuxt-editable',
     configKey: 'editable'
   },
   defaults: {
-    configPath: 'editable.config'
+    collections: {},
+    ui: {},
+    log: true
   },
   async setup (options, nuxt) {
     const resolver = createResolver(import.meta.url)
-    const configPath = resolver.resolve(nuxt.options.rootDir, options.configPath)
-    const config = await import(configPath)
-    
+    //const configPath = resolver.resolve(nuxt.options.rootDir, options.configPath)
+    const config = options //await import(configPath)
+
     // Add the options to the private runtime config
-    nuxt.options.runtimeConfig.editable = config
+    nuxt.options.runtimeConfig.editable = options
 
     // Add the options to the public runtime config
     nuxt.options.runtimeConfig.public.editable = {
       ui: config.ui || {},
-      log: config.log || false,
+      log: config.log,
       // @todo: Add a secure way of exposing the collections
       collections: config.collections || {}
     }

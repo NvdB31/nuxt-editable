@@ -6,16 +6,17 @@ const module = defineNuxtModule({
     configKey: "editable"
   },
   defaults: {
-    configPath: "editable.config"
+    collections: {},
+    ui: {},
+    log: true
   },
   async setup(options, nuxt) {
     const resolver = createResolver(import.meta.url);
-    const configPath = resolver.resolve(nuxt.options.rootDir, options.configPath);
-    const config = await import(configPath);
-    nuxt.options.runtimeConfig.editable = config;
+    const config = options;
+    nuxt.options.runtimeConfig.editable = options;
     nuxt.options.runtimeConfig.public.editable = {
       ui: config.ui || {},
-      log: config.log || false,
+      log: config.log,
       // @todo: Add a secure way of exposing the collections
       collections: config.collections || {}
     };

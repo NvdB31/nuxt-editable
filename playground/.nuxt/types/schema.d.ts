@@ -23,6 +23,8 @@ declare module 'nuxt/schema' {
    database: string,
 
    editable: {
+      ui: any,
+
       collections: {
          posts: {
             name: {
