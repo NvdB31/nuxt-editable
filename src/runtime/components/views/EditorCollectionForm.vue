@@ -2,15 +2,31 @@
 import EditorHeading from '../EditorHeading.vue';
 import EditorSection from '../EditorSection.vue';
 import EditorDeletionModal from '../EditorDeletionModal.vue';
-import EditorRichTextEditor from '../EditorRichTextEditor.vue';
 import { useEditor } from '../../composables/editor';
 import * as yup from 'yup'
-import type { FormSubmitEvent } from '#ui/types'
 import { prettifyColumnLabel, formatTimestamps } from '../../utilities';
-import { refreshNuxtData } from '#app'
+import type { EditableData } from '~/src/types';
+
+// Fields
+import EditorRichTextField from '../fields/EditorRichTextField.vue';
+import EditorOptionsField from '../fields/EditorOptionsField.vue';
+
+// Utilities
+import { requestDataForSchemaFields } from '../../utilities/form'
+
+
+const props = defineProps<{
+  data: EditableData;
+}>();
+
+const emit = defineEmits<{
+  change: [payload: any];
+  requestData: [payload: any];
+}>()
 
 const componentsForFieldTypes = {
-    text: { label: 'Text', component: 'UInput', props: { type: 'text' }, defaultValue: '' },
+  text: { label: 'Text', component: 'UInput', props: { type: 'text' }, defaultValue: '' },
+    'multiline-text': { label: 'Multi-line Text', component: 'UTextarea', props: { rows: 5 }, defaultValue: '' },
     email: { label: 'Email address', component: 'UInput', props: { type: 'email' }, defaultValue: '' },
     file: { label: 'File', component: 'UInput', props: { type: 'file' }, defaultValue: '' },
     image: { label: 'Image', component: 'UInput', props: { type: 'file' }, defaultValue: '' },
@@ -19,54 +35,130 @@ const componentsForFieldTypes = {
     number: { label: 'Number', component: 'UInput', props: { type: 'number' }, defaultValue: 0 },
     date: { label: 'Date', component: 'UInput', props: { type: 'date' }, defaultValue: null },
     datetime: { label: 'Date and time', component: 'UInput', props: { type: 'datetime' }, defaultValue: null },
-    options: { label: 'Options', component: 'USelectMenu', props: { options: [] }, defaultValue: [] },
+    options: { label: 'Options', component: 'EditorOptionsField', props: { }, defaultValue: [] },
   switch: { label: 'Switch', component: 'UToggle', props: { type: 'text' }, defaultValue: false },
-    'rich-text': { label: 'Rich text', component: 'EditorRichTextEditor', props: { rows: 10 }, defaultValue: '' },
+    'rich-text': { label: 'Rich text', component: 'EditorRichTextField', props: { rows: 10 }, defaultValue: '' },
 }
 
-const { collections, view } = await useEditor()
+const defaultValidatorsForFieldTypes = {
+  text: yup.string(),
+  'multiline-text': yup.string(),
+  email: yup.string().email(),
+  file: yup.string(),
+  image: yup.string(),
+  url: yup.string().url(),
+  phone: yup.string().matches(/^[0-9]+$/, 'This field must be a valid phone number.'),
+  number: yup.number(),
+  date: yup.date(),
+  datetime: yup.date(),
+  options: yup.array(),
+  switch: yup.boolean(),
+  'rich-text': yup.string(),
+}
+
+const { collections, view, log } = useEditor()
 const currentCollection = computed(() => {
-    return collections[view.current.value]
+    return collections[view.current.value.collection]
 })
-const isNewPost = computed(() => view.item.value === 'new')
+const isNewPost = computed(() => view.current.value.item === 'new')
+const itemData = computed(() => {
+  const itemsForCurrentCollection = props.data[view.current.value.collection]
+  return itemsForCurrentCollection?.find(item => item._id === view.current.value.item) || {}
+})
 
-const getItem = async () => {
-  if (!isNewPost.value) {
-    return $fetch(`/api/editable/${view.current.value}/${view.item.value}`)
-  } else {
-    return {}
-  }
-}
-
-const itemData = reactive(await getItem())
-const state = reactive(Object.entries(currentCollection.value.schema).reduce((acc, [key, value]) => {
-    acc[key] = itemData[key] || value.default || componentsForFieldTypes[value.type].defaultValue
+const setFormState = () => {
+  return Object.entries(currentCollection.value.schema).reduce((acc, [key, value]) => {
+    acc[key] = itemData.value[key] || value.default || componentsForFieldTypes[value.type].defaultValue
     return acc
-}, {}))
-
-const getSchema = (schemaObject) => {
-  const yupSchema = Object.keys(schemaObject).reduce((acc, key) => {
-    const field = schemaObject[key];
-    const type = field.type // Get the type name and convert it to lowercase
-
-    if (yup[type]) { // Check if yup has a corresponding method for the type
-      let validator = yup[type](); // Initialize the validator
-
-      if (field.required) {
-        validator = validator.required('This field is required.');
-      }
-
-      // Here you can add more customizations based on other Mongoose field properties
-
-      acc[key] = validator; // Add the validator to the schema
-    }
-
-    return acc;
-  }, {});
-
-  return yup.object().shape(yupSchema);
+}, {})
 }
-const schema = getSchema(currentCollection.value.schema)
+
+const state = ref(setFormState())
+
+watch(itemData, () => {
+  state.value = setFormState()
+})
+
+/**
+ * Get the Yup schema for the current collection
+ * Applies the validators from defaultValidatorsForFieldTypes to create a Yup schema with default validators
+ * Additionally, applies custom validators from the configuration, as defined in the validators property
+ */
+function applyValidators(validator, validators) {
+  Object.keys(validators).forEach(key => {
+    const value = validators[key];
+
+    switch (key) {
+      case 'required':
+        if (value) validator = validator.required();
+        break;
+      case 'length':
+        validator = validator.length(value);
+        break;
+      case 'lessThan':
+        validator = validator.lessThan(value);
+        break;
+      case 'moreThan':
+        validator = validator.moreThan(value);
+        break;
+      case 'positive':
+        if (value) validator = validator.positive();
+        break;
+      case 'negative':
+        if (value) validator = validator.negative();
+        break;
+      case 'min':
+        validator = validator.min(value);
+        break;
+      case 'max':
+        validator = validator.max(value);
+        break;
+      case 'matches':
+        validator = validator.matches(value);
+        break;
+      case 'email':
+        if (value) validator = yup.string().email();
+        break;
+      case 'url':
+        if (value) validator = yup.string().url();
+        break;
+      case 'phone':
+        if (value) validator = yup.string().matches(/^[0-9]+$/);
+        break;
+      case 'datetime':
+        if (value) validator = yup.date();
+        break;
+      case 'date':
+        if (value) validator = yup.date();
+        break;
+      case 'lowercase':
+        if (value) validator = validator.lowercase();
+        break;
+      case 'uppercase':
+        if (value) validator = validator.uppercase();
+        break;
+    }
+  });
+
+  return validator;
+}
+
+function getYupValidationSchema(schema) {
+  const yupSchemaFields = {};
+
+  Object.keys(schema).forEach(key => {
+    const { type, ...validators } = schema[key];
+    const baseValidator = defaultValidatorsForFieldTypes[type] || yup.string(); // Fallback to string validator
+    yupSchemaFields[key] = applyValidators(baseValidator, validators);
+  });
+
+  return yup.object(yupSchemaFields)
+}
+
+const schema = getYupValidationSchema(currentCollection.value.schema)
+
+// Request data for option fields
+requestDataForSchemaFields(currentCollection.value.schema, emit)
 
 // Reduce the collection schema to an object that can be used to generate the form
 const formComponents = Object.entries(currentCollection.value.schema).reduce((acc, [key, value]) => {
@@ -86,34 +178,33 @@ const formComponents = Object.entries(currentCollection.value.schema).reduce((ac
 }, {})
 
 // Submission
-async function onSubmit(event: FormSubmitEvent<Schema>) {
-  console.log('foo')
+async function onSubmit(event: any) {
   if (isNewPost.value) {
-    await $fetch(`/api/editable/${view.current.value}`, {
-      method: 'POST',
-      body: event.data
-    })
+    emit('change', { type: 'create', payload: { collection: view.current.value.collection, data: event.data } })
   } else {
-    await $fetch(`/api/editable/${view.current.value}/${view.item.value}`, {
-      method: 'PUT',
-      body: event.data
-    })
+    emit('change', { type: 'update', payload: { collection: view.current.value.collection, data: { ...itemData.value, ...event.data } } })
   }
-  view.go(view.current.value)
-  refreshNuxtData()
+  log({ severity: 'info', message: `Submitting data for ${view.current.value.collection}, ${event.data}` })
+  view.go({ view: 'collections', collection: view.current.value.collection })
 }
 
 async function onDelete() {
-  await $fetch(`/api/editable/${view.current.value}/${view.item.value}`, {
-    method: 'DELETE'
-  })
-  view.go(view.current.value)
+  emit('change', { type: 'delete', payload: { collection: view.current.value.collection, data: itemData.value } })
+  log({ severity: 'info', message: `Deleting data for ${view.current.value.collection}, ${itemData.value}` })
+  view.go({ view: 'collections', collection: view.current.value.collection })
 }
 
 const showDeletionModal = ref(false)
 
-const updatedAt = computed(() => formatTimestamps(itemData.updated_at))
-const createdAt = computed(() => formatTimestamps(itemData.created_at))
+const updatedAt = computed(() => formatTimestamps(itemData.value.updated_at))
+const createdAt = computed(() => formatTimestamps(itemData.value.created_at))
+
+onMounted(() => {
+  if (!isNewPost.value) {
+    emit('requestData', { collection: view.current.value.collection })
+    log({ severity: 'info', message: `Requesting data for ${view.current.value.collection}` })
+  }
+})
 </script>
 
 <template>
@@ -134,7 +225,7 @@ const createdAt = computed(() => formatTimestamps(itemData.created_at))
           <UButton
             size="lg"
             color="gray"
-            @click="view.go('collections')"
+            @click="view.go({ view: 'collections' })"
           >
             Cancel
           </UButton>
@@ -152,11 +243,18 @@ const createdAt = computed(() => formatTimestamps(itemData.created_at))
             v-for="(item, key) in formComponents"
             :key="key"
             :label="item.props.label"
+            :name="key"
             :help="item.schema.help"
             :hint="item.label"
           >
             <UInput
               v-if="item.component === 'UInput'"
+              v-model="state[key]"
+              v-bind="item.props"
+              size="lg"
+            />
+            <UTextarea
+              v-if="item.component === 'UTextarea'"
               v-model="state[key]"
               v-bind="item.props"
               size="lg"
@@ -167,17 +265,18 @@ const createdAt = computed(() => formatTimestamps(itemData.created_at))
               v-bind="item.props"
               size="lg"
             />
-            <USelectMenu
-              v-else-if="item.component === 'USelectMenu'"
+            <EditorOptionsField
+              v-else-if="item.component === 'EditorOptionsField'"
               v-model="state[key]"
-              v-bind="item.props"
-              :options="[]"
+              :data="data"
+              :field="item.schema"
+              :component-props="item.props"
               size="lg"
             />
-            <EditorRichTextEditor
-              v-else-if="item.component === 'EditorRichTextEditor'"
+            <EditorRichTextField
+              v-else-if="item.component === 'EditorRichTextField'"
               v-model="state[key]"
-              v-bind="item.props"
+              :component-props="item.props"
               size="lg"
             />
           </UFormGroup>
@@ -187,18 +286,30 @@ const createdAt = computed(() => formatTimestamps(itemData.created_at))
           #footer
         >
           <ul class="text-xs text-gray-500 leading-relaxed">
-            <li>Item ID: {{ itemData._id }}</li>
-            <li v-if="itemData.created_at">Created at: {{ createdAt }}</li>
-            <li v-if="itemData.updated_at">Updated at: {{ updatedAt }}</li>
+            <li v-if="itemData._id || itemData.id">
+              Item ID: {{ itemData._id }}
+            </li>
+            <li v-if="itemData.created_at">
+              Created at: {{ createdAt }}
+            </li>
+            <li v-if="itemData.updated_at">
+              Updated at: {{ updatedAt }}
+            </li>
           </ul>
           <div class="flex gap-4 mt-4">
-            <UButton color="white" @click="showDeletionModal = true">
+            <UButton
+              color="white"
+              @click="showDeletionModal = true"
+            >
               Delete
             </UButton>
           </div>
         </template>
       </UCard>
     </UForm>
-    <EditorDeletionModal v-model="showDeletionModal" @delete="onDelete"/>
+    <EditorDeletionModal
+      v-model="showDeletionModal"
+      @delete="onDelete"
+    />
   </EditorSection>
 </template>

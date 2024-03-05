@@ -1,8 +1,8 @@
 {
-  "name": "my-module",
-  "version": "1.0.0",
-  "description": "My new Nuxt module",
-  "repository": "your-org/my-module",
+  "name": "nuxt-editable",
+  "version": "0.0.1",
+  "description": "Nuxt Editable is a free content editor UI to embed in your Nuxt site. It gives you a great editing experience by allowing you to click to edit content in-place.",
+  "repository": "https://github.com/NvdB31/nuxt-editable",
   "license": "MIT",
   "type": "module",
   "exports": {

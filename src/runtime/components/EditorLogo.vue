@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useEditor } from '../composables/editor';
+
 defineProps<{
   size: 'sm' | 'md' | 'lg';
 }>()
@@ -15,10 +17,25 @@ const fontSizes = ref({
   lg: 'text-3xl'
 })
 
+const customLogoSizeClasses = ref({
+  sm: 'h-8',
+  md: 'h-12',
+  lg: 'h-16',
+})
+
+const { ui } = useEditor();
 </script>
 
 <template>
-  <div class="flex items-center flex-shrink-0">
+  <img
+    v-if="ui.logo"
+    :src="ui.logo"
+    :class="customLogoSizeClasses[size]"
+  >
+  <div
+    v-else
+    class="flex items-center flex-shrink-0"
+  >
     <svg
       :width="logoSizes[size]"
       :height="logoSizes[size]"
@@ -31,7 +48,10 @@ const fontSizes = ref({
         fill="#00DC82"
       />
     </svg>
-    <span class="font-bold ml-1 tracking-tight" :class="fontSizes[size]">Nuxt <span class="text-[#00DC82]">Editable</span></span>
+    <span
+      class="font-bold ml-1 tracking-tight"
+      :class="fontSizes[size]"
+    >Nuxt <span class="text-[#00DC82]">Editable</span></span>
   </div>
 </template>
 

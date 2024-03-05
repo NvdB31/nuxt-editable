@@ -1,84 +1,35 @@
-import type { EditableConfig } from '../src/types/module'
+import type { EditableConfig, EditableCollection, EditableCollectionSchema } from '../src/types'
 
 export default <EditableConfig>{
   collections: {
-    work: {
+    posts: {
       name: {
-        singular: 'Client',
-        plural: 'Clients'
+        singular: 'Post',
+        plural: 'Posts'
       },
-      icon: 'i-heroicons-document-text',
-      schema: {
-        name: {
-          type: 'text',
-          help: 'The name of the client'
-        },
-        role: {
-          type: 'text',
-          help: 'The role at the client'
-        },
-        start_date: {
-          type: 'date',
-          help: 'The start date of the project'
-        },
-        end_date: {
-          type: 'date',
-          help: 'The end date of the project'
-        },
-      },
-    },
-    projects: {
-      name: {
-        singular: 'Project',
-        plural: 'Projects'
-      },
-      icon: 'i-heroicons-document-text',
+      icon: 'i-heroicons-newspaper',
       schema: {
         title: {
           type: 'text',
-          help: 'A title for the project'
+          help: 'A title for the post',
+          required: true
         },
-        description: {
+        slug: {
           type: 'text',
-          help: 'A description of the project'
+          help: 'A URL-friendly slug for the post page',
+          required: true
         },
-        client: {
+        excerpt: {
           type: 'text',
-          help: 'The client for the project'
+          help: 'A short excerpt of the post'
         },
-      }
-    },
-      posts: {
-        name: {
-          singular: 'Post',
-          plural: 'Posts'
-        },
-        icon: 'i-heroicons-document-text',
-        schema: {
-          title: {
-            type: 'text',
-            help: 'A title for the post'
-          },
-          author: {
-            type: 'text',
-            help: 'The author of the post'
-          },
-          reading_time: {
-            type: 'number',
-            help: 'The time it takes to read the post in minutes'
-          },
-          attachmend: {
-            type: 'file'
-          },
-          read_more: {
-            type: 'url',
-            help: 'A link to the full post'
-          },
-          content: {
-            type: 'rich-text',
-            help: 'The content of the post'
-          }
+        content: {
+          type: 'rich-text',
+          help: 'The content of the post'
         }
-      },
-    }
-  }
+      } as EditableCollectionSchema // Add type assertion here
+    } as EditableCollection // Add type assertion here
+  },
+  
+  log: true
+}

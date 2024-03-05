@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "my-module-playground",
+  "name": "nuxt-editable-playground",
   "type": "module",
   "scripts": {
     "dev": "nuxi dev",
@@ -8,7 +8,7 @@
     "generate": "nuxi generate"
   },
   "dependencies": {
-    "@nuxt/ui-pro": "^1.0.1",
+    "@nuxt/ui": "^2.14.1",
     "nuxt": "latest"
   }
 }

@@ -6,27 +6,30 @@ export default defineNuxtPlugin((nuxtApp) => {
     created(el: HTMLElement, binding: any) {
         const { collection, id } = binding.value;
 
-        // @todo: Add necessary checks to verify if element is eligible for editable.
       if (collection) el.setAttribute("data-editable-collection", collection);
       if (id) el.setAttribute("data-editable-id", id);
 
       const highlightedItem = useState('highlightedItem', () => null)
-      const { view } = useEditor()
+      const { view, collections } = useEditor()
+      const collectionInfo = collections[collection]
 
       el.addEventListener("mouseenter", (e) => {
         e.stopPropagation();
-        highlightedItem.value = el.getBoundingClientRect();
+        el.style.cursor = "pointer";
+
+        highlightedItem.value = { rect: el.getBoundingClientRect(), collection: collectionInfo }
       });
 
       el.addEventListener("mouseleave", (e) => {
         highlightedItem.value = null
+        el.style.cursor = "default";
         e.stopPropagation();
       });
 
       el.addEventListener("click", (e) => {
         highlightedItem.value = null
         e.stopPropagation();
-        view.go(collection, id)
+        view.go({ view: 'collections', collection, item: id })
       });
     }
   });

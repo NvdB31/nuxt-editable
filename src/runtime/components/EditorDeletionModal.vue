@@ -11,20 +11,30 @@ const isOpen = computed({
 </script>
 
 <template>
-        <UModal v-model="isOpen">
-            <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-                <template #header>
-                    <div class="font-semibold text-lg">Delete item?</div>
-                </template>
+  <UModal v-model="isOpen">
+    <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
+      <template #header>
+        <div class="font-semibold text-lg">
+          Delete item?
+        </div>
+      </template>
 
-                Deleting an item cannot be undone. You will lose all data associated with this item.
+      Deleting an item cannot be undone. You will lose all data associated with this item.
 
-                <template #footer>
-                    <div class="flex gap-2 justify-end">
-                        <UButton label="Cancel" color="white" @click="isOpen = false" />
-                        <UButton label="Delete" color="red" @click="emit('delete')" />
-                    </div>
-                </template>
-            </UCard>
-        </UModal>
+      <template #footer>
+        <div class="flex gap-2 justify-end">
+          <UButton
+            label="Cancel"
+            color="white"
+            @click="isOpen = false"
+          />
+          <UButton
+            label="Delete"
+            color="red"
+            @click="emit('delete')"
+          />
+        </div>
+      </template>
+    </UCard>
+  </UModal>
 </template>

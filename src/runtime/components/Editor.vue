@@ -10,18 +10,19 @@ import EditorSignupForm from './views/EditorSignupForm.vue';
 import EditorLoginForm from './views/EditorLoginForm.vue';
 import EditorHighlighter from './EditorHighlighter.vue';
 
-import type { EditableViewChangeEvent, EditableEditorEvents, EditableEditorProps } from '../../types'
+import type { EditableEditorEvents, EditableEditorProps, EditableView } from '../../types'
 
-const props = defineProps<EditableEditorProps>()
+defineProps<EditableEditorProps>()
 const emit = defineEmits<EditableEditorEvents>()
 
-const { collections: editorCollections, view, toggle, isCollapsed, toast } = await useEditor()
+const { collections: editorCollections, view, toggle, isCollapsed, isEnabled, toast } = useEditor()
 
-const isCollectionView = computed(() => {
-  return editorCollections[view.current.value] !== undefined
+
+const isCollectionDetailView = computed(() => {
+  return view.current.value.view === 'collections' && editorCollections[view.current.value.collection] !== undefined && !view.current.value.item
 })
 const isAuthView = computed(() => {
-  return ['signup', 'login', 'reset-password'].includes(view.current.value)
+  return ['signup', 'login', 'reset-password'].includes(view.current.value.view)
 })
 
 defineShortcuts({
@@ -34,50 +35,76 @@ defineShortcuts({
 })
 
 // Watchers to emit events
-watch(isCollapsed, (payload: boolean) => {
-  emit('collapse', payload)
+watch(isCollapsed, (collapsed: boolean) => {
+  emit('collapse', collapsed)
 })
 
-watch(view.current, (payload: EditableViewChangeEvent) => {
-  emit('viewChange', payload)
+watch(view.current, (view: EditableView) => {
+  emit('viewChange', view)
 })
 
 </script>
 
 <template>
   <div
+    v-if="isEnabled"
     class="overflow-hidden px-4 fixed w-screen flex flex-col justify-end transition-colors"
     :class="{'h-26 pt-0 bottom-0': isCollapsed, 'bg-black/10 dark:bg-black/5 h-screen inset-0': !isCollapsed}"
-    v-if="editorCollections"
     v-bind="$attrs"
   >
-    
     <UButton
-          color="white"
-          class="mx-auto mb-4"
-          :icon="isCollapsed ? 'i-heroicons:arrow-up-solid' : 'i-heroicons:arrow-down-solid'"
-          :ui="{ rounded: 'rounded-full' }"
-          @click="toggle"
-        >
-          {{ !isCollapsed ? 'Hide Editor' : 'Show Editor' }} 
-        </UButton>
+      color="white"
+      class="mx-auto mb-4"
+      :icon="isCollapsed ? 'i-heroicons-arrow-up-solid' : 'i-heroicons-arrow-down-solid'"
+      :ui="{ rounded: 'rounded-full' }"
+      @click="toggle"
+    >
+      {{ !isCollapsed ? 'Hide Editor' : 'Show Editor' }} 
+    </UButton>
 
     <UContainer class="w-full">
-      <UNotification :ui="{ rounded: 'rounded-none rounded-t-lg' }" v-for="msg in toast.messages.value" v-bind="msg" :callback="() => toast.remove(msg.id)" />
+      <UNotification
+        v-for="msg in toast.messages.value"
+        :key="msg.id"
+        :ui="{ rounded: 'rounded-none rounded-t-lg' }"
+        v-bind="msg"
+        :callback="() => toast.remove(msg.id)"
+      />
     </UContainer>
 
     <EditorBody>
-      <EditorNavbar v-if="!isAuthView && user" :user="user" />
+      <EditorNavbar
+        v-if="!isAuthView && user"
+        :user="user"
+      />
       <EditorView :class="{'!h-0': isCollapsed }">
         <UContainer>
-          <EditorCollections v-if="view.current.value === 'collections'" />
-          <EditorCollectionForm v-else-if="view.item.value" @change="payload => emit('change', payload)" />
-          <EditorCollectionList v-else-if="isCollectionView" @change="payload => emit('change', payload)" />
-          <EditorSignupForm v-else-if="view.current.value === 'signup'" />
-          <EditorLoginForm v-else-if="view.current.value === 'login'" />
+          <EditorCollectionList
+            v-if="isCollectionDetailView"
+            :data="data"
+            :pending="pending"
+            @change="payload => emit('change', payload)"
+            @request-data="payload => emit('requestData', payload)"
+          />
+          <EditorCollectionForm
+            v-else-if="view.current.value.item"
+            :data="data"
+            :pending="pending"
+            @change="payload => emit('change', payload)"
+            @request-data="payload => emit('requestData', payload)"
+          />
+          <EditorSignupForm
+            v-else-if="view.current.value.view === 'signup'"
+            :pending="pending"
+          />
+          <EditorLoginForm
+            v-else-if="view.current.value.view === 'login'"
+            :pending="pending"
+          />
+          <EditorCollections v-else />
         </UContainer>
       </EditorView>
     </EditorBody>
   </div>
-  <EditorHighlighter/>
+  <EditorHighlighter />
 </template>

@@ -1,17 +1,24 @@
 <script setup lang="ts">
-const rect = useState('highlightedItem', () => null) as Ref<DOMRect | null>
+const highlightedItem = useState('highlightedItem', () => {}) as Ref<DOMRect | object>
 </script>
 
 <template>
-    <div v-if="rect" class="border-2 border-primary/50 fixed z-[1000]" :style="{
-        top: rect.top + 'px',
-        left: rect.left + 'px',
-        width: rect.width + 'px',
-        height: rect.height + 'px'
-    }">
+  <div
+    v-if="highlightedItem"
+    class="border-2 bg-primary/10 border-primary/50 fixed z-[1000] pointer-events-none"
+    :style="{
+      top: highlightedItem.rect.top + 'px',
+      left: highlightedItem.rect.left + 'px',
+      width: highlightedItem.rect.width + 'px',
+      height: highlightedItem.rect.height + 'px'
+    }"
+  >
     <div class="absolute -right-0.5 -top-5 text-xs bg-primary font-medium text-white p-0.5 px-1 rounded-t flex items-center gap-1">
-        <UIcon name="i-heroicons-pencil" size="12" />
-        Click to Edit
+      <UIcon
+        :name="highlightedItem.collection.icon"
+        size="12"
+      />
+      {{ highlightedItem.collection.name.singular }}
     </div>
-    </div>
+  </div>
 </template>

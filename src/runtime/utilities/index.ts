@@ -1,24 +1,4 @@
-import { EditableCollectionSchemaFieldType, type EditableCollectionSchema, type EditableCollection, type EditableCollectionKey } from '../types/collections'
-/**
- * Convert schema types to string equivalent for usage in Vue environments
- */
-export const convertSchemaTypes = (schemaObject: EditableCollectionSchema) => {
-  
-    const convertedSchema = {};
-  
-    Object.keys(schemaObject).forEach(key => {
-      const field = schemaObject[key];
-      // Check if the type is in the mapping
-      if (field.type && EditableCollectionSchemaFieldType[field.type]) {
-        // Convert to the string equivalent
-        convertedSchema[key] = { ...field, type: EditableCollectionSchemaFieldType[field.type] };
-      } else {
-        // Copy as is if no conversion is needed
-        convertedSchema[key] = field;
-      }
-    });
-    return convertedSchema;
-  }
+import { type EditableCollection, type EditableCollectionKey } from '../../types/collections'
 
 // Convert the schema types to string equivalent by reducing and calling the conversion function
 export const convertCollectionsToStringSchemas = (collections: EditableCollection[]) => {
@@ -40,6 +20,7 @@ export const prettifyColumnLabel = (str: string) => {
 }
 
 export const formatTimestamps = (timestamps: any) => {
+  if (!timestamps) return '';
   return new Intl.DateTimeFormat(undefined, {
     year: 'numeric',
     month: 'numeric',

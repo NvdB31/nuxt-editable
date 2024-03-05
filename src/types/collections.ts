@@ -1,23 +1,40 @@
-import type { EditableRoleKey } from './roles';
-
 /**
  * A type for a field in the schema.
  */
 export enum EditableCollectionSchemaFieldType {
-    text = 'string',
+    text = 'text',
+    'multiline-text' = 'multiline-text',
     number = 'number',
-    richText = 'string',
-    image = 'string',
-    file = 'string',
-    url = 'string',
+    image = 'image',
+    file = 'file',
+    url = 'url',
     date = 'date',
-    datetime = 'date',
-    options = 'array',
-    switch = 'boolean',
-    email = 'string',
-    phone = 'string',
-    'rich-text' = 'string',
-    password = 'string'
+    datetime = 'datetime',
+    options = 'options',
+    switch = 'switch',
+    email = 'email',
+    phone = 'phone',
+    'rich-text' = 'rich-text',
+    password = 'password'
+}
+
+export interface EditableCollectionSchemaFieldValidator {
+    required: true | false,
+    length: number,
+    lessThan: number,
+    moreThan: number,
+    positive: true | false,
+    negative: true | false,
+    min: number | Date,
+    max: number | Date,
+    matches: RegExp,
+    email: true | false,
+    url: true | false,
+    phone: true | false,
+    datetime: true | false,
+    date: true | false,
+    lowercase: true | false,
+    uppercase: true | false,
 }
 
 /**
@@ -32,29 +49,39 @@ export type EditableCollectionSchemaFieldHelp = string;
  */
 export type EditableCollectionSchemaFieldKey = string;
 
+export type EditableCollectionSchemaFieldOption = {
+    value: string,
+    label: string
+}
+
+export type EditableCollectionSchemaFieldOptionsSource = {
+    collection: EditableCollectionKey
+
+    // A field in the collection to use as the label for the options
+    labelField: string
+
+    // A field in the collection to use as the value for the options
+    valueField: string
+}
+
+export interface BaseEditableCollectionSchemaField {
+    type: EditableCollectionSchemaFieldType;
+    help?: EditableCollectionSchemaFieldHelp;
+    options?: EditableCollectionSchemaFieldOptionsSource | EditableCollectionSchemaFieldOption[];
+}
+
+
+export type EditableCollectionSchemaField = BaseEditableCollectionSchemaField & {
+    [key: string]: EditableCollectionSchemaFieldValidator
+};
+
 /**
  * A schema for a collection.
  */
 export interface EditableCollectionSchema {
-    [key: EditableCollectionSchemaFieldKey]: {
-        type: EditableCollectionSchemaFieldType,
-        help?: EditableCollectionSchemaFieldHelp,
-        required: boolean
-    }
+    [key: EditableCollectionSchemaFieldKey]: EditableCollectionSchemaField
 }
 
-/**
- * A configuration for the permissions for a given collection.
- * 
- */
-export interface EditableCollectionPermissions {
-        [key: EditableRoleKey]: {
-            create: boolean,
-            read: boolean,
-            update: boolean,
-            delete: boolean
-        }
-    }
 
 export interface EditableCollection {
     /**
@@ -87,8 +114,6 @@ export interface EditableCollection {
      * Define the schema for the collection.
      */
     schema: EditableCollectionSchema;
-
-    // permissions?: EditableCollectionPermissions;
 
 }
 

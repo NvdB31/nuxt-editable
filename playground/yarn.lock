@@ -624,9 +624,9 @@
     "@iconify/types" "*"
 
 "@iconify/collections@^1.0.374":
-  version "1.0.400"
-  resolved "https://registry.yarnpkg.com/@iconify/collections/-/collections-1.0.400.tgz#4b9dd7e2c8b30e5bab8d6170adfc93de2337ec5b"
-  integrity sha512-VUou3gD0xp12OJ1SzHHJdRws3DBHzzOAUVGWf8jlCp97QMqn+N8rxrLtJI5CllAOLEFwU2MFrlZ+OuohJaEb/A==
+  version "1.0.401"
+  resolved "https://registry.yarnpkg.com/@iconify/collections/-/collections-1.0.401.tgz#f46cc2cc54ed2a43d372d7bf64c2777e6e4b39b0"
+  integrity sha512-rjcwIh6jYxAaWavMkDQoM9TkpqUZ9v5NrlZ2gJX/9X2WF6DSXguG+HqhqIhRWJYGT1AQE9qAvgUGZbjylYn+GA==
   dependencies:
     "@iconify/types" "*"
 
@@ -1000,22 +1000,6 @@
     pathe "^1.1.1"
     rc9 "^2.1.1"
     std-env "^3.5.0"
-
-"@nuxt/ui-pro@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@nuxt/ui-pro/-/ui-pro-1.0.1.tgz#000f7873133a29cb098146d73306b268493817f2"
-  integrity sha512-dpLo5irKc59k0twKHuQaKYkJMFH2x3HVbvVK+vBSHhBDRtAEcKEHt6ccnTvwk8bUDGTmcMoD5SJLm6X6Vf+iGA==
-  dependencies:
-    "@nuxt/ui" "^2.14.1"
-    "@vueuse/core" "^10.8.0"
-    defu "^6.1.4"
-    git-url-parse "^14.0.0"
-    ofetch "^1.3.3"
-    parse-git-config "^3.0.0"
-    pathe "^1.1.2"
-    pkg-types "^1.0.3"
-    tailwind-merge "^2.2.1"
-    vue3-smooth-dnd "^0.0.6"
 
 "@nuxt/ui-templates@^1.3.1":
   version "1.3.1"
@@ -3093,13 +3077,6 @@ git-url-parse@^13.1.1:
   version "13.1.1"
   resolved "https://registry.yarnpkg.com/git-url-parse/-/git-url-parse-13.1.1.tgz#664bddf0857c6a75b3c1f0ae6239abb08a1486d4"
   integrity sha512-PCFJyeSSdtnbfhSNRw9Wk96dDCNx+sogTe4YNXeXSJxt7xz5hvXekuRn9JX7m+Mf4OscCu8h+mtAl3+h5Fo8lQ==
-  dependencies:
-    git-up "^7.0.0"
-
-git-url-parse@^14.0.0:
-  version "14.0.0"
-  resolved "https://registry.yarnpkg.com/git-url-parse/-/git-url-parse-14.0.0.tgz#18ce834726d5fbca0c25a4555101aa277017418f"
-  integrity sha512-NnLweV+2A4nCvn4U/m2AoYu0pPKlsmhK9cknG7IMwsjFY1S2jxM+mAhsDxyxfCIGfGaD+dozsyX4b6vkYc83yQ==
   dependencies:
     git-up "^7.0.0"
 
@@ -5506,11 +5483,6 @@ smob@^1.0.0:
   resolved "https://registry.yarnpkg.com/smob/-/smob-1.4.1.tgz#66270e7df6a7527664816c5b577a23f17ba6f5b5"
   integrity sha512-9LK+E7Hv5R9u4g4C3p+jjLstaLe11MDsL21UpYaCNmapvMkYhqCV4A/f/3gyH8QjMyh6l68q9xC85vihY9ahMQ==
 
-smooth-dnd@^0.12.1:
-  version "0.12.1"
-  resolved "https://registry.yarnpkg.com/smooth-dnd/-/smooth-dnd-0.12.1.tgz#cdb44c972355659e32770368b29b6a80e0ed96f1"
-  integrity sha512-Dndj/MOG7VP83mvzfGCLGzV2HuK1lWachMtWl/Iuk6zV7noDycIBnflwaPuDzoaapEl3Pc4+ybJArkkx9sxPZg==
-
 socks-proxy-agent@^8.0.1:
   version "8.0.2"
   resolved "https://registry.yarnpkg.com/socks-proxy-agent/-/socks-proxy-agent-8.0.2.tgz#5acbd7be7baf18c46a3f293a840109a430a640ad"
@@ -6288,13 +6260,6 @@ vue-router@^4.3.0:
   integrity sha512-dqUcs8tUeG+ssgWhcPbjHvazML16Oga5w34uCUmsk7i0BcnskoLGwjpa15fqMr2Fa5JgVBrdL2MEgqz6XZ/6IQ==
   dependencies:
     "@vue/devtools-api" "^6.5.1"
-
-vue3-smooth-dnd@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/vue3-smooth-dnd/-/vue3-smooth-dnd-0.0.6.tgz#7a41f8625345aa0a6cc167d3cbf8c29baf276b4d"
-  integrity sha512-CH9ZZhEfE7qU1ef2rlfgBG+nZtQX8PnWlspB2HDDz1uVGU7fXM0Pr65DftBMz4X81S+edw2H+ZFG6Dyb5J81KA==
-  dependencies:
-    smooth-dnd "^0.12.1"
 
 vue@^3.4.19:
   version "3.4.21"

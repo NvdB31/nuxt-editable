@@ -25,7 +25,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             method: 'POST',
             body: event.data
         })
-        view.go('collections')
+        view.go({ view: 'collections' })
     } catch (error) {
         toast.add({ title: 'An error occurred while signing in.', color: 'red', type: 'error' })
     }
@@ -33,21 +33,47 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 </script>
 
 <template>
-    <EditorSection>
-        <AccountForm title="Sign in to manage your site">
-            <UForm class="col-span-3 grid grid-cols-3 gap-8 items-start" :schema="schema" :state="state" @submit="onSubmit">
-                <UFormGroup label="Email" name="email">
-                    <UInput v-model="state.email" label="Email" type="email" size="xl" />
-                </UFormGroup>
-                <UFormGroup label="Password" name="password">
-                    <UInput v-model="state.password" label="Password" type="password" size="xl" />
-                </UFormGroup>
-                <UButton type="submit" block class="mt-6" size="xl">
-                    Sign in
-                </UButton>
-            </UForm>
-        </AccountForm>
-    </EditorSection>
+  <EditorSection>
+    <AccountForm title="Sign in to manage your site">
+      <UForm
+        class="col-span-3 grid grid-cols-3 gap-8 items-start"
+        :schema="schema"
+        :state="state"
+        @submit="onSubmit"
+      >
+        <UFormGroup
+          label="Email"
+          name="email"
+        >
+          <UInput
+            v-model="state.email"
+            label="Email"
+            type="email"
+            size="xl"
+          />
+        </UFormGroup>
+        <UFormGroup
+          label="Password"
+          name="password"
+        >
+          <UInput
+            v-model="state.password"
+            label="Password"
+            type="password"
+            size="xl"
+          />
+        </UFormGroup>
+        <UButton
+          type="submit"
+          block
+          class="mt-6"
+          size="xl"
+        >
+          Sign in
+        </UButton>
+      </UForm>
+    </AccountForm>
+  </EditorSection>
 </template>
 
 <style scoped></style>

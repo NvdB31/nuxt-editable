@@ -1,19 +1,30 @@
-const isEditorCollapsed = ref(false)
-const collections = await $fetch("/api/editable/collections")
+import type { EditableCollectionKey, EditableViewType, EditableView, EditableLogEvent } from "~/src/types";
+
+const isEditorCollapsed = ref(true)
 
 export const useEditor = () => {
+    const config = useRuntimeConfig();
+    const collections = config.public.editable.collections
     const route = useRoute()
     const router = useRouter();
+    
     const currentEditorView = computed(() => {
-        // Return part after the hash from the route
-        return route.query?.view || 'collections'
+        return {
+            view: route.query.view as EditableViewType,
+            collection: route.query.collection as EditableCollectionKey,
+            item: route.query.item as string
+        }
     })
+    // if (!currentEditorView.value.view) {
+    //     router.replace({ query: { editable: true, view: 'collections' } })
+    // }
 
     const toastMessages = useState('editorToasts', () => [])
 
     return {
         toggle: () => isEditorCollapsed.value = !isEditorCollapsed.value,
         isCollapsed: isEditorCollapsed,
+        isEnabled: computed(() => route.query.editable === 'true'),
         toast: {
             add: (message: any) => {
                 const timeout = message.timeout || 3000
@@ -30,21 +41,17 @@ export const useEditor = () => {
         },
         view: {
             current: currentEditorView,
-            item: computed(() => route.query.item),
-            go: (view: string, item?: string) => {
-                router.push({ query: { editable: true, view, item } })
+            go: (view: EditableView) => {
+                router.push({ query: { editable: true, ...view } })
                 isEditorCollapsed.value = false
             },
         },
-        collections
+        collections,
+        ui: config.public.editable.ui,
+
+        log: (event: EditableLogEvent) => {
+            if (config.public.editable.log !== true || event.severity !== config.public.editable.log) return
+            console[event.severity](`[Nuxt Editable] ${event.message}`)
+        }
     }
 }
-
-export const useEditorUser = async () => {
-    const user = useState("editorUser", () => null);
-	const data = await useRequestFetch()("/api/editable/auth/user");
-	if (data) {
-		user.value = data;
-	}
-	return user;
-};

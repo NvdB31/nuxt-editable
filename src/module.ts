@@ -1,7 +1,5 @@
-import { defineNuxtModule, addPlugin, createResolver, addImportsDir, addComponentsDir, installModule } from '@nuxt/kit'
-
+import { defineNuxtModule, addPlugin, createResolver, addImportsDir, installModule, addComponent } from '@nuxt/kit'
 import type { EditableModuleOptions } from './types/module'
-
 
 export default defineNuxtModule<EditableModuleOptions>({
   meta: {
@@ -18,17 +16,23 @@ export default defineNuxtModule<EditableModuleOptions>({
     
     // Add the options to the private runtime config
     nuxt.options.runtimeConfig.editable = config
-  
-    // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
+
+    // Add the options to the public runtime config
+    nuxt.options.runtimeConfig.public.editable = {
+      ui: config.ui || {},
+      log: config.log || false,
+      // @todo: Add a secure way of exposing the collections
+      collections: config.collections || {}
+    }
+    
+    // Add Editor plugin, components and composables
     addPlugin(resolver.resolve('./runtime/plugin'))
     addImportsDir(resolver.resolve('./runtime/composables'))
-
-    // Add Editor components
-    addComponentsDir({
-      path: resolver.resolve('./runtime/components'),
-      prefix: 'NuxtEditable'
+    addComponent({
+      name: 'NuxtEditableEditor',
+      filePath: resolver.resolve('./runtime/components/Editor.vue'),
     })
-
+    
     nuxt.hook('tailwindcss:config', function (tailwindConfig) {
       tailwindConfig.content = tailwindConfig.content ?? { files: [] };
       (Array.isArray(tailwindConfig.content) ? tailwindConfig.content : tailwindConfig.content.files).push(resolver.resolve('./runtime/components/**/*.{vue,mjs,ts}'))
@@ -41,7 +45,7 @@ export default defineNuxtModule<EditableModuleOptions>({
         }
       }
     })
-
+    
     await installModule('@nuxt/ui')
   }
 })

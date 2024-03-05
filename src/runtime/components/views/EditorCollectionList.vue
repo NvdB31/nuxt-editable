@@ -2,15 +2,24 @@
 import EditorHeading from '../EditorHeading.vue';
 import EditorSection from '../EditorSection.vue';
 import { useEditor } from '../../composables/editor';
-import { useFetch } from '#app';
+import { computed, defineProps, defineEmits, ref, onMounted } from 'vue';
 import { prettifyColumnLabel, formatTimestamps } from '../../utilities'
-import type { EditableCollection } from '~/src/types';
+import { EditableChangeEventType, type EditableChangeEvent, type EditableCollection, type EditableData, type EditableRequestDataEvent } from '../../../types';
 
-const { collections, view } = await useEditor()
+const { collections, view, log } = useEditor()
 const currentCollection: Ref<EditableCollection> = computed(() => {
-  return collections[view.current.value]
+  return collections[view.current.value.collection]
 })
-const selected = ref([])
+
+const emit = defineEmits<{
+  change: [event: EditableChangeEvent];
+  requestData: [event: EditableRequestDataEvent];
+}>()
+
+const props = defineProps<{
+  data: EditableData;
+  pending?: boolean;
+}>();
 
 const columns = computed(() => {
   const schemaColumns = Object.keys(currentCollection.value.schema).map(key => {
@@ -20,7 +29,7 @@ const columns = computed(() => {
       sortable: true
     }
   })
-
+  
   return [
     ...schemaColumns,
     {
@@ -32,18 +41,15 @@ const columns = computed(() => {
       key: 'updated_at',
       sortable: true
     }]
-})
-
-const { data, pending, refresh } = await useFetch(`/api/editable/${view.current.value}`)
-
-watch(() => view.current.value, async () => {
-  await refresh()
-  console.log(rows.value)
-})
+  })
+  
+const selected = ref([])
 
 
 const rows = computed(() => {
-  return data.value.map(row => {
+  const collectionData = props.data?.[view.current.value.collection] || []
+  if (!collectionData.length) return []
+  return collectionData.map(row => {
     return {
       ...row,
       created_at: row.created_at ? formatTimestamps(row.created_at) : '',
@@ -53,24 +59,26 @@ const rows = computed(() => {
 })
 
 const deleteItems = async () => {
-  await $fetch(`/api/editable/${view.current.value}`, {
-    method: 'DELETE',
-    body: { ids: selected.value.map(item => item._id) }
-  })
+  emit('change', { type: EditableChangeEventType.Delete, payload: { collection: view.current.value.collection, data: selected.value } })
+  log({ severity: 'info', message: `Deleting data for ${view.current.value.collection}, ${selected.value}` })
   selected.value = []
-  refresh();
 }
+
+onMounted(() => {
+  emit('requestData', { collection: view.current.value.collection })
+  log({ severity: 'info', message: `Requesting data for ${view.current.value.collection}` })
+})
 </script>
 
 <template>
   <EditorSection>
     <div class="grid grid-cols-2 items-end mb-8">
-        <EditorHeading
-          tag="h1"
-          class="capitalize"
-        >
-          {{ currentCollection.name.plural }}
-        </EditorHeading>
+      <EditorHeading
+        tag="h1"
+        class="capitalize"
+      >
+        {{ currentCollection.name.plural }}
+      </EditorHeading>
       <div class="flex justify-end gap-4">
         <UInput
           icon="i-heroicons-magnifying-glass-20-solid"
@@ -79,27 +87,38 @@ const deleteItems = async () => {
           :trailing="false"
           :placeholder="`Search ${currentCollection.name.plural.toLowerCase()}`"
         />
-        <UButton size="lg" color="gray" icon="i-heroicons-trash" v-if="selected.length" @click="deleteItems">
+        <UButton
+          v-if="selected.length"
+          size="lg"
+          color="gray"
+          icon="i-heroicons-trash"
+          @click="deleteItems"
+        >
           Delete
         </UButton>
         <UButton
           size="lg"
           icon="i-heroicons-plus"
-          @click="view.go(view.current.value, 'new')"
+          @click="view.go({view: 'collections', collection: view.current.value.collection, item: 'new'})"
         >
           New {{ currentCollection.name.singular }}
         </UButton>
       </div>
     </div>
-    <div class="text-sm text-gray-500 dark:text-gray-300 mb-4" v-if="currentCollection.description">{{ currentCollection.description }}</div>
+    <div
+      v-if="currentCollection.description"
+      class="text-sm text-gray-500 dark:text-gray-300 mb-4"
+    >
+      {{ currentCollection.description }}
+    </div>
     <UTable
-      :rows="rows"
       v-model="selected"
+      :rows="rows"
       :columns="columns"
       :loading="pending"
       class="border dark:border-gray-800 rounded-lg bg-white dark:bg-gray-950"
       :empty-state="{ icon: 'i-heroicons-queue-list', label: `No ${currentCollection.name.plural}.` }"
-      @select="row => view.go(view.current.value, row._id)"
+      @select="row => view.go({ view: 'collections', collection: view.current.value.collection, item: row._id })"
     >
       <template #name-data="{ row }">
         <span class="capitalize">{{ row.name }}</span>

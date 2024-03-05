@@ -7,6 +7,14 @@ export interface EditableUIConfig {
      */
     search?: boolean;
 
+    /**
+     * Set a path to a custom logo for the UI
+     */
+    logo?: string;
+
+    /**
+     * Collection-specific UI configuration options
+     */
     collections: {
         [key: EditableCollectionKey]: {
             /**

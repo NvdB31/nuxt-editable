@@ -34,36 +34,47 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 </script>
 
 <template>
-    <EditorSection>
-        <AccountForm title="Sign up to manage your site">
-        <UForm class="col-span-3 grid grid-cols-3 gap-8 items-start" :schema="schema" :state="state" @submit="onSubmit">
-                <UFormGroup label="Email" name="email">
-                    <UInput
-                        v-model="state.email"
-                        label="Email"
-                        type="email"
-                        size="xl"
-                    />
-                </UFormGroup>
-                <UFormGroup label="Password" name="password">
-                    <UInput
-                        v-model="state.password"
-                        label="Password"
-                        type="password"
-                        size="xl"
-                    />
-                </UFormGroup>
-                <UButton
-                    type="submit"
-                    block
-                    class="mt-6"
-                    size="xl"
-                >
-                    Sign up
-                </UButton>
-            </UForm>
-        </AccountForm>
-    </EditorSection>
+  <EditorSection>
+    <AccountForm title="Sign up to manage your site">
+      <UForm
+        class="col-span-3 grid grid-cols-3 gap-8 items-start"
+        :schema="schema"
+        :state="state"
+        @submit="onSubmit"
+      >
+        <UFormGroup
+          label="Email"
+          name="email"
+        >
+          <UInput
+            v-model="state.email"
+            label="Email"
+            type="email"
+            size="xl"
+          />
+        </UFormGroup>
+        <UFormGroup
+          label="Password"
+          name="password"
+        >
+          <UInput
+            v-model="state.password"
+            label="Password"
+            type="password"
+            size="xl"
+          />
+        </UFormGroup>
+        <UButton
+          type="submit"
+          block
+          class="mt-6"
+          size="xl"
+        >
+          Sign up
+        </UButton>
+      </UForm>
+    </AccountForm>
+  </EditorSection>
 </template>
 
 <style scoped>

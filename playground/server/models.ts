@@ -1,8 +1,26 @@
 import mongoose from 'mongoose'
-import { EditableCollectionSchemaFieldType, type EditableCollectionSchema, type EditableCollectionKey, type EditableCollection } from '../../types/collections'
+import { type EditableCollectionSchema, type EditableCollectionKey, type EditableCollection } from '../../src/types/collections'
 
 const defaultSchemaAttributes = {
   timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
+}
+
+enum SchemaFieldType {
+    text = 'string',
+    'multiline-text' = 'string',
+    number = 'number',
+    richText = 'string',
+    image = 'string',
+    file = 'string',
+    url = 'string',
+    date = 'date',
+    datetime = 'date',
+    options = 'array',
+    switch = 'boolean',
+    email = 'string',
+    phone = 'string',
+    'rich-text' = 'string',
+    password = 'string'
 }
 
 /**
@@ -15,9 +33,9 @@ export const convertSchemaTypes = (schemaObject: EditableCollectionSchema) => {
     Object.keys(schemaObject).forEach(key => {
       const field = schemaObject[key];
       // Check if the type is in the mapping
-      if (field.type && EditableCollectionSchemaFieldType[field.type]) {
+      if (field.type && SchemaFieldType[field.type]) {
         // Convert to the string equivalent
-        convertedSchema[key] = { ...field, type: EditableCollectionSchemaFieldType[field.type] };
+        convertedSchema[key] = { ...field, type: SchemaFieldType[field.type] };
       } else {
         // Copy as is if no conversion is needed
         convertedSchema[key] = { ...field };
@@ -26,24 +44,6 @@ export const convertSchemaTypes = (schemaObject: EditableCollectionSchema) => {
     return convertedSchema;
   }
 
-/**
- * Generate models from the collections defined in the module config
- */
-
-const sessionSchema = {
-			_id: {
-				type: String,
-				required: true
-			},
-			user_id: {
-				type: String,
-				required: true
-			},
-			expires_at: {
-				type: Date,
-				required: true
-			}
-	}
 
 const config = useRuntimeConfig()
 const models = Object.entries(config.editable.collections).reduce((acc, [key, collection]: [EditableCollectionKey, EditableCollection]) => {
@@ -52,6 +52,4 @@ const models = Object.entries(config.editable.collections).reduce((acc, [key, co
     acc[key] = mongoose.model(key, new mongoose.Schema(schema, defaultSchemaAttributes))
     return acc
 }, {})
-models.session = mongoose.model('session', new mongoose.Schema(sessionSchema, defaultSchemaAttributes))
-
 export default models
