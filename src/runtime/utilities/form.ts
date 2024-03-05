@@ -5,7 +5,7 @@ import { EditableCollectionSchemaFieldType, type EditableCollectionSchema } from
  */
 export const requestDataForSchemaFields = async (schema: EditableCollectionSchema, emit: any) => {
     Object.values(schema).forEach(async (field) => {
-        if (field.type === EditableCollectionSchemaFieldType.options && field.options?.collection) {
+        if (field.type === EditableCollectionSchemaFieldType.Options && field.options?.collection) {
             emit('requestData', { collection: field.options.collection })
         }
     })

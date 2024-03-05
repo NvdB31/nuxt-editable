@@ -20,7 +20,13 @@ declare module 'nuxt/schema' {
       cdnURL: string,
    },
 
-   editable: any,
+   editable: {
+      collections: any,
+
+      ui: any,
+
+      log: boolean,
+   },
   }
   interface PublicRuntimeConfig {
    editable: {

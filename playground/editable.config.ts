@@ -1,6 +1,6 @@
-import type { EditableConfig } from '../src/types'
+import { type EditableConfig } from "../src/types";
 
-export default <any>{
+const config: EditableConfig = {
   collections: {
     posts: {
       name: {
@@ -30,6 +30,8 @@ export default <any>{
       }
     },
   },
-  
+
   log: true
-}
+};
+
+export default config;

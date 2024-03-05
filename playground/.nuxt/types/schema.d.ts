@@ -23,8 +23,6 @@ declare module 'nuxt/schema' {
    database: string,
 
    editable: {
-      ui: any,
-
       collections: {
          posts: {
             name: {
@@ -66,6 +64,8 @@ declare module 'nuxt/schema' {
             },
          },
       },
+
+      ui: any,
 
       log: boolean,
    },

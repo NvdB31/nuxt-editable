@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { mkdirSync } from 'node:fs';
 import { parentPort, threadId } from 'node:worker_threads';
 import { defineEventHandler, handleCacheHeaders, splitCookiesString, isEvent, createEvent, getRequestHeader, eventHandler, setHeaders, sendRedirect, proxyRequest, setResponseHeader, send, getResponseStatus, setResponseStatus, setResponseHeaders, getRequestHeaders, createApp, createRouter as createRouter$1, toNodeListener, fetchWithEvent, lazyEventHandler, getRouterParam, readBody, getQuery as getQuery$1, createError, getResponseStatusText } from 'file:///Users/nickvandenberg/Development/nuxt-editable/playground/node_modules/h3/dist/index.mjs';
-import mongoose from 'file:///Users/nickvandenberg/Development/nuxt-editable/node_modules/mongoose/index.js';
+import mongoose from 'file:///Users/nickvandenberg/Development/nuxt-editable/playground/node_modules/mongoose/index.js';
 import { getRequestDependencies, getPreloadLinks, getPrefetchLinks, createRenderer } from 'file:///Users/nickvandenberg/Development/nuxt-editable/playground/node_modules/vue-bundle-renderer/dist/runtime.mjs';
 import { stringify, uneval } from 'file:///Users/nickvandenberg/Development/nuxt-editable/playground/node_modules/devalue/index.js';
 import { parseURL, withoutBase, joinURL, getQuery, withQuery } from 'file:///Users/nickvandenberg/Development/nuxt-editable/playground/node_modules/ufo/dist/index.mjs';
@@ -131,7 +131,6 @@ const _inlineRuntimeConfig = {
   },
   "database": "mongodb+srv://nick:mango1906@cluster0.i8fslop.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
   "editable": {
-    "ui": {},
     "collections": {
       "posts": {
         "name": {
@@ -161,6 +160,7 @@ const _inlineRuntimeConfig = {
         }
       }
     },
+    "ui": {},
     "log": true
   }
 };
