@@ -3,7 +3,8 @@ import models from '../../models'
 
 export default defineEventHandler( async (event) => {
     const id = getRouterParam(event, 'id');
-    const model = models.featureFlags
-
-    return model.findOne({ _id: new mongoose.Types.ObjectId(id) });
+    const body = await readBody(event)
+    
+    const model = models.posts
+    return model.updateOne({ _id: new mongoose.Types.ObjectId(id) }, body);
 })

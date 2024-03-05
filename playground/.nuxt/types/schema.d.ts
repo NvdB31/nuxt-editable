@@ -24,110 +24,6 @@ declare module 'nuxt/schema' {
 
    editable: {
       collections: {
-         featureFlags: {
-            name: {
-               singular: string,
-
-               plural: string,
-            },
-
-            icon: string,
-
-            schema: {
-               name: {
-                  type: string,
-
-                  help: string,
-
-                  required: boolean,
-               },
-
-               key: {
-                  type: string,
-
-                  help: string,
-
-                  required: boolean,
-               },
-
-               environment: {
-                  type: string,
-
-                  help: string,
-
-                  options: Array<{
-
-                  }>,
-               },
-
-               rules: {
-                  type: string,
-
-                  options: {
-                     collection: string,
-
-                     labelField: string,
-
-                     valueField: string,
-                  },
-
-                  help: string,
-               },
-
-               enabled: {
-                  type: string,
-
-                  help: string,
-               },
-            },
-         },
-
-         featureFlagRules: {
-            name: {
-               singular: string,
-
-               plural: string,
-            },
-
-            icon: string,
-
-            schema: {
-               name: {
-                  type: string,
-
-                  help: string,
-
-                  required: boolean,
-               },
-
-               key: {
-                  type: string,
-
-                  help: string,
-
-                  options: Array<{
-
-                  }>,
-
-                  required: boolean,
-               },
-
-               operator: {
-                  type: string,
-
-                  options: Array<{
-
-                  }>,
-               },
-
-               value: {
-                  type: string,
-
-                  help: string,
-               },
-            },
-         },
-
          posts: {
             name: {
                singular: string,
@@ -161,6 +57,86 @@ declare module 'nuxt/schema' {
                },
 
                content: {
+                  type: string,
+
+                  help: string,
+               },
+            },
+         },
+
+         products: {
+            name: {
+               singular: string,
+
+               plural: string,
+            },
+
+            icon: string,
+
+            schema: {
+               title: {
+                  type: string,
+
+                  help: string,
+
+                  required: boolean,
+               },
+
+               description: {
+                  type: string,
+
+                  help: string,
+               },
+
+               discountPercentage: {
+                  type: string,
+
+                  help: string,
+               },
+
+               price: {
+                  type: string,
+
+                  help: string,
+
+                  required: boolean,
+               },
+
+               image: {
+                  type: string,
+
+                  help: string,
+               },
+
+               stock: {
+                  type: string,
+
+                  help: string,
+
+                  required: boolean,
+               },
+
+               category: {
+                  type: string,
+
+                  help: string,
+
+                  options: {
+                     source: string,
+                  },
+               },
+
+               rating: {
+                  type: string,
+
+                  help: string,
+
+                  min: number,
+
+                  max: number,
+               },
+
+               brand: {
                   type: string,
 
                   help: string,
@@ -181,110 +157,6 @@ declare module 'nuxt/schema' {
       log: boolean,
 
       collections: {
-         featureFlags: {
-            name: {
-               singular: string,
-
-               plural: string,
-            },
-
-            icon: string,
-
-            schema: {
-               name: {
-                  type: string,
-
-                  help: string,
-
-                  required: boolean,
-               },
-
-               key: {
-                  type: string,
-
-                  help: string,
-
-                  required: boolean,
-               },
-
-               environment: {
-                  type: string,
-
-                  help: string,
-
-                  options: Array<{
-
-                  }>,
-               },
-
-               rules: {
-                  type: string,
-
-                  options: {
-                     collection: string,
-
-                     labelField: string,
-
-                     valueField: string,
-                  },
-
-                  help: string,
-               },
-
-               enabled: {
-                  type: string,
-
-                  help: string,
-               },
-            },
-         },
-
-         featureFlagRules: {
-            name: {
-               singular: string,
-
-               plural: string,
-            },
-
-            icon: string,
-
-            schema: {
-               name: {
-                  type: string,
-
-                  help: string,
-
-                  required: boolean,
-               },
-
-               key: {
-                  type: string,
-
-                  help: string,
-
-                  options: Array<{
-
-                  }>,
-
-                  required: boolean,
-               },
-
-               operator: {
-                  type: string,
-
-                  options: Array<{
-
-                  }>,
-               },
-
-               value: {
-                  type: string,
-
-                  help: string,
-               },
-            },
-         },
-
          posts: {
             name: {
                singular: string,
@@ -318,6 +190,86 @@ declare module 'nuxt/schema' {
                },
 
                content: {
+                  type: string,
+
+                  help: string,
+               },
+            },
+         },
+
+         products: {
+            name: {
+               singular: string,
+
+               plural: string,
+            },
+
+            icon: string,
+
+            schema: {
+               title: {
+                  type: string,
+
+                  help: string,
+
+                  required: boolean,
+               },
+
+               description: {
+                  type: string,
+
+                  help: string,
+               },
+
+               discountPercentage: {
+                  type: string,
+
+                  help: string,
+               },
+
+               price: {
+                  type: string,
+
+                  help: string,
+
+                  required: boolean,
+               },
+
+               image: {
+                  type: string,
+
+                  help: string,
+               },
+
+               stock: {
+                  type: string,
+
+                  help: string,
+
+                  required: boolean,
+               },
+
+               category: {
+                  type: string,
+
+                  help: string,
+
+                  options: {
+                     source: string,
+                  },
+               },
+
+               rating: {
+                  type: string,
+
+                  help: string,
+
+                  min: number,
+
+                  max: number,
+               },
+
+               brand: {
                   type: string,
 
                   help: string,

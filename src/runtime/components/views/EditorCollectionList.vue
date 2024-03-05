@@ -31,7 +31,7 @@ const columns = computed(() => {
   })
   
   return [
-    ...schemaColumns,
+    schemaColumns[0],
     {
       label: 'Created at',
       key: 'created_at',
@@ -123,7 +123,7 @@ onMounted(() => {
       :loading="pending"
       class="border dark:border-gray-800 rounded-lg bg-white dark:bg-gray-950"
       :empty-state="{ icon: 'i-heroicons-queue-list', label: `No ${currentCollection.name.plural}.` }"
-      @select="row => view.go({ view: 'collections', collection: view.current.value.collection, item: row._id })"
+      @select="row => view.go({ view: 'collections', collection: view.current.value.collection, item: row.id || row._id })"
     >
       <template #name-data="{ row }">
         <span class="capitalize">{{ row.name }}</span>

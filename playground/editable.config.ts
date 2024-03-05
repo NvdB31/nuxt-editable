@@ -2,89 +2,6 @@ import { EditableCollectionSchemaFieldType, type EditableConfig } from "../src/t
 
 const config: EditableConfig = {
   collections: {
-    featureFlags: {
-      name: {
-        singular: 'Feature Flag',
-        plural: 'Feature Flags'
-      },
-      icon: 'i-heroicons-flag',
-      schema: {
-        name: {
-          type: EditableCollectionSchemaFieldType.Text,
-          help: 'A name for the feature flag',
-          required: true
-        },
-        key: {
-          type: EditableCollectionSchemaFieldType.Text,
-          help: 'A unique key for the feature flag',
-          required: true
-        },
-        environment: {
-          type: EditableCollectionSchemaFieldType.Options,
-          help: 'The environment the feature flag is for',
-          options: [
-            { value: 'development', label: 'Development' },
-            { value: 'staging', label: 'Staging' },
-            { value: 'production', label: 'Production' }
-          ]
-        },
-        rules: {
-          type: EditableCollectionSchemaFieldType.Options,
-          options: {
-            collection: 'featureFlagRules',
-            labelField: 'name',
-            valueField: '_id'
-          },
-          help: 'All the rules for the feature flag'
-        },
-        enabled: {
-          type: EditableCollectionSchemaFieldType.Switch,
-          help: 'Whether the feature flag is active or not'
-        }
-      }
-    },
-    featureFlagRules: {
-        name: {
-          singular: 'Rule',
-          plural: 'Rules'
-      },
-      icon: 'i-heroicons-adjustments-horizontal',
-      schema: {
-        name: {
-          type: EditableCollectionSchemaFieldType.Text,
-          help: 'A descriptive name for the rule',
-          required: true
-        },
-        key: {
-          type: EditableCollectionSchemaFieldType.Options,
-          help: 'A unique key for the rule',
-          options: [
-            { value: 'title', label: 'Title' },
-            { value: 'mid', label: 'Mid' },
-            { value: 'date', label: 'Date' }
-          ],
-          required: true
-        },
-        operator: {
-          type: EditableCollectionSchemaFieldType.Options,
-          options: [
-            { value: 'eq', label: 'Equal to' },
-            { value: 'ne', label: 'Not equal to' },
-            { value: 'gt', label: 'Greater than' },
-            { value: 'lt', label: 'Less than' },
-            { value: 'gte', label: 'Greater than or equal to' },
-            { value: 'lte', label: 'Less than or equal to' },
-            { value: 'contains', label: 'Contains' },
-            { value: 'notContains', label: 'Does not contain' }
-          ],
-        },
-        value: {
-          type: EditableCollectionSchemaFieldType.Text,
-          help: 'The value to compare'
-        }
-      },
-      
-    },
     posts: {
       name: {
         singular: 'Post',
@@ -112,6 +29,59 @@ const config: EditableConfig = {
         }
       }
     },
+    products: {
+      name: {
+        singular: 'Product',
+        plural: 'Products'
+      },
+      icon: 'i-heroicons-shopping-bag',
+      schema: {
+        title: {
+          type: EditableCollectionSchemaFieldType.Text,
+          help: 'A title for the product',
+          required: true
+        },
+        description: {
+          type: EditableCollectionSchemaFieldType.Text,
+          help: 'A description of the product'
+        },
+        discountPercentage: {
+          type: EditableCollectionSchemaFieldType.Number,
+          help: 'The discount percentage of the product'
+        },
+        price: {
+          type: EditableCollectionSchemaFieldType.Number,
+          help: 'The price of the product',
+          required: true
+        },
+        image: {
+          type: EditableCollectionSchemaFieldType.Image,
+          help: 'An image of the product'
+        },
+        stock: {
+          type: EditableCollectionSchemaFieldType.Number,
+          help: 'The stock of the product',
+          required: true
+        },
+        category: {
+          type: EditableCollectionSchemaFieldType.Options,
+          help: 'The category of the product',
+          options: {
+            source: 'categories'
+          }
+        },
+        rating: {
+          type: EditableCollectionSchemaFieldType.Number,
+          help: 'The rating of the product',
+          min: 1,
+          max: 5
+        },
+        brand: {
+          type: EditableCollectionSchemaFieldType.Text,
+          help: 'The brand of the product'
+        }
+      }
+    }
   },
 
   log: true
