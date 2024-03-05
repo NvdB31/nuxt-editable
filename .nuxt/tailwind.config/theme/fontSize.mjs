@@ -1,0 +1,15 @@
+const _xs = ["0.75rem",{"lineHeight":"1rem"}]
+const _sm = ["0.875rem",{"lineHeight":"1.25rem"}]
+const _base = ["1rem",{"lineHeight":"1.5rem"}]
+const _lg = ["1.125rem",{"lineHeight":"1.75rem"}]
+const _xl = ["1.25rem",{"lineHeight":"1.75rem"}]
+const _2xl = ["1.5rem",{"lineHeight":"2rem"}]
+const _3xl = ["1.875rem",{"lineHeight":"2.25rem"}]
+const _4xl = ["2.25rem",{"lineHeight":"2.5rem"}]
+const _5xl = ["3rem",{"lineHeight":"1"}]
+const _6xl = ["3.75rem",{"lineHeight":"1"}]
+const _7xl = ["4.5rem",{"lineHeight":"1"}]
+const _8xl = ["6rem",{"lineHeight":"1"}]
+const _9xl = ["8rem",{"lineHeight":"1"}]
+const config = { "xs": _xs, "sm": _sm, "base": _base, "lg": _lg, "xl": _xl, "2xl": _2xl, "3xl": _3xl, "4xl": _4xl, "5xl": _5xl, "6xl": _6xl, "7xl": _7xl, "8xl": _8xl, "9xl": _9xl,  }
+export { config as default, _xs, _sm, _base, _lg, _xl, _2xl, _3xl, _4xl, _5xl, _6xl, _7xl, _8xl, _9xl }

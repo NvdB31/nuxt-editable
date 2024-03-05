@@ -1,0 +1,16 @@
+const _3 = ".75rem"
+const _4 = "1rem"
+const _5 = "1.25rem"
+const _6 = "1.5rem"
+const _7 = "1.75rem"
+const _8 = "2rem"
+const _9 = "2.25rem"
+const _10 = "2.5rem"
+const _none = "1"
+const _tight = "1.25"
+const _snug = "1.375"
+const _normal = "1.5"
+const _relaxed = "1.625"
+const _loose = "2"
+const config = { "3": _3, "4": _4, "5": _5, "6": _6, "7": _7, "8": _8, "9": _9, "10": _10, "none": _none, "tight": _tight, "snug": _snug, "normal": _normal, "relaxed": _relaxed, "loose": _loose,  }
+export { config as default, _3, _4, _5, _6, _7, _8, _9, _10, _none, _tight, _snug, _normal, _relaxed, _loose }

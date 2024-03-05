@@ -1,0 +1,113 @@
+export default {
+  "../../../node_modules/@nuxt/ui-templates/dist/templates/error-404.vue": {
+    "resourceType": "script",
+    "module": true,
+    "prefetch": true,
+    "preload": true,
+    "file": "error-404.CU7UDEL2.js",
+    "src": "../../../node_modules/@nuxt/ui-templates/dist/templates/error-404.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "../../../node_modules/nuxt/dist/app/entry.js"
+    ],
+    "css": []
+  },
+  "error-404.B0c3_1Et.css": {
+    "file": "error-404.B0c3_1Et.css",
+    "resourceType": "style",
+    "prefetch": true,
+    "preload": true
+  },
+  "../../../node_modules/@nuxt/ui-templates/dist/templates/error-500.vue": {
+    "resourceType": "script",
+    "module": true,
+    "prefetch": true,
+    "preload": true,
+    "file": "error-500.DUHPZQkR.js",
+    "src": "../../../node_modules/@nuxt/ui-templates/dist/templates/error-500.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "../../../node_modules/nuxt/dist/app/entry.js"
+    ],
+    "css": []
+  },
+  "error-500.DBUioaH5.css": {
+    "file": "error-500.DBUioaH5.css",
+    "resourceType": "style",
+    "prefetch": true,
+    "preload": true
+  },
+  "../../../node_modules/nuxt-icon/dist/runtime/Icon.vue": {
+    "resourceType": "script",
+    "module": true,
+    "prefetch": true,
+    "preload": true,
+    "file": "Icon.DKAWBneE.js",
+    "src": "../../../node_modules/nuxt-icon/dist/runtime/Icon.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "../../../node_modules/nuxt/dist/app/entry.js",
+      "_index.CzCfPO9Z.js"
+    ],
+    "css": []
+  },
+  "Icon.DXE6Kp9f.css": {
+    "file": "Icon.DXE6Kp9f.css",
+    "resourceType": "style",
+    "prefetch": true,
+    "preload": true
+  },
+  "../../../node_modules/nuxt-icon/dist/runtime/IconCSS.vue": {
+    "resourceType": "script",
+    "module": true,
+    "prefetch": true,
+    "preload": true,
+    "file": "IconCSS.C2dsY5lL.js",
+    "src": "../../../node_modules/nuxt-icon/dist/runtime/IconCSS.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "../../../node_modules/nuxt/dist/app/entry.js",
+      "_index.CzCfPO9Z.js"
+    ],
+    "css": []
+  },
+  "IconCSS.DGwcj5io.css": {
+    "file": "IconCSS.DGwcj5io.css",
+    "resourceType": "style",
+    "prefetch": true,
+    "preload": true
+  },
+  "../../../node_modules/nuxt/dist/app/entry.js": {
+    "resourceType": "script",
+    "module": true,
+    "prefetch": true,
+    "preload": true,
+    "file": "entry.BSynpE3g.js",
+    "src": "../../../node_modules/nuxt/dist/app/entry.js",
+    "isEntry": true,
+    "dynamicImports": [
+      "../../../node_modules/@nuxt/ui-templates/dist/templates/error-404.vue",
+      "../../../node_modules/@nuxt/ui-templates/dist/templates/error-500.vue"
+    ],
+    "_globalCSS": true
+  },
+  "_index.CzCfPO9Z.js": {
+    "resourceType": "script",
+    "module": true,
+    "prefetch": true,
+    "preload": true,
+    "file": "index.CzCfPO9Z.js"
+  },
+  "node_modules/.cache/nuxt-google-fonts/fonts/DM_Sans-400-1.woff2": {
+    "resourceType": "font",
+    "mimeType": "font/woff2",
+    "file": "DM_Sans-400-1.C24VDuKN.woff2",
+    "src": "node_modules/.cache/nuxt-google-fonts/fonts/DM_Sans-400-1.woff2"
+  },
+  "node_modules/.cache/nuxt-google-fonts/fonts/DM_Sans-400-2.woff2": {
+    "resourceType": "font",
+    "mimeType": "font/woff2",
+    "file": "DM_Sans-400-2.B1c0Y_ic.woff2",
+    "src": "node_modules/.cache/nuxt-google-fonts/fonts/DM_Sans-400-2.woff2"
+  }
+}

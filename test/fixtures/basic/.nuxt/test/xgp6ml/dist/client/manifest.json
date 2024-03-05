@@ -1,0 +1,70 @@
+{
+  "../../../node_modules/@nuxt/ui-templates/dist/templates/error-404.vue": {
+    "file": "_nuxt/error-404.CU7UDEL2.js",
+    "src": "../../../node_modules/@nuxt/ui-templates/dist/templates/error-404.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "../../../node_modules/nuxt/dist/app/entry.js"
+    ],
+    "css": [
+      "_nuxt/error-404.B0c3_1Et.css"
+    ]
+  },
+  "../../../node_modules/@nuxt/ui-templates/dist/templates/error-500.vue": {
+    "file": "_nuxt/error-500.DUHPZQkR.js",
+    "src": "../../../node_modules/@nuxt/ui-templates/dist/templates/error-500.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "../../../node_modules/nuxt/dist/app/entry.js"
+    ],
+    "css": [
+      "_nuxt/error-500.DBUioaH5.css"
+    ]
+  },
+  "../../../node_modules/nuxt-icon/dist/runtime/Icon.vue": {
+    "file": "_nuxt/Icon.DKAWBneE.js",
+    "src": "../../../node_modules/nuxt-icon/dist/runtime/Icon.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "../../../node_modules/nuxt/dist/app/entry.js",
+      "_index.CzCfPO9Z.js"
+    ],
+    "css": [
+      "_nuxt/Icon.DXE6Kp9f.css"
+    ]
+  },
+  "../../../node_modules/nuxt-icon/dist/runtime/IconCSS.vue": {
+    "file": "_nuxt/IconCSS.C2dsY5lL.js",
+    "src": "../../../node_modules/nuxt-icon/dist/runtime/IconCSS.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "../../../node_modules/nuxt/dist/app/entry.js",
+      "_index.CzCfPO9Z.js"
+    ],
+    "css": [
+      "_nuxt/IconCSS.DGwcj5io.css"
+    ]
+  },
+  "../../../node_modules/nuxt/dist/app/entry.js": {
+    "file": "_nuxt/entry.BSynpE3g.js",
+    "src": "../../../node_modules/nuxt/dist/app/entry.js",
+    "isEntry": true,
+    "dynamicImports": [
+      "../../../node_modules/nuxt-icon/dist/runtime/Icon.vue",
+      "../../../node_modules/nuxt-icon/dist/runtime/IconCSS.vue",
+      "../../../node_modules/@nuxt/ui-templates/dist/templates/error-404.vue",
+      "../../../node_modules/@nuxt/ui-templates/dist/templates/error-500.vue"
+    ]
+  },
+  "_index.CzCfPO9Z.js": {
+    "file": "_nuxt/index.CzCfPO9Z.js"
+  },
+  "node_modules/.cache/nuxt-google-fonts/fonts/DM_Sans-400-1.woff2": {
+    "file": "_nuxt/DM_Sans-400-1.C24VDuKN.woff2",
+    "src": "node_modules/.cache/nuxt-google-fonts/fonts/DM_Sans-400-1.woff2"
+  },
+  "node_modules/.cache/nuxt-google-fonts/fonts/DM_Sans-400-2.woff2": {
+    "file": "_nuxt/DM_Sans-400-2.B1c0Y_ic.woff2",
+    "src": "node_modules/.cache/nuxt-google-fonts/fonts/DM_Sans-400-2.woff2"
+  }
+}

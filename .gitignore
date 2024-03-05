@@ -14,10 +14,10 @@ node_modules
 **/.yarn/*state*
 
 # Generated dirs
-dist
+# dist
 
 # Nuxt
-.nuxt
+# .nuxt
 .output
 .data
 .vercel_build_output
