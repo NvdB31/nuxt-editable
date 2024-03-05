@@ -49,6 +49,9 @@ export type EditableCollectionSchemaFieldHelp = string;
  */
 export type EditableCollectionSchemaFieldKey = string;
 
+/**
+ * An option for a field in the schema.
+ */
 export type EditableCollectionSchemaFieldOption = {
     value: string,
     label: string

@@ -3,6 +3,26 @@ import type { Serialize, Simplify } from 'nitropack'
 declare module 'nitropack' {
   type Awaited<T> = T extends PromiseLike<infer U> ? Awaited<U> : T
   interface InternalApi {
+    '/api/featureFlagRules/:id': {
+      'delete': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/featureFlagRules/[id].delete').default>>>>
+      'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/featureFlagRules/[id].get').default>>>>
+      'put': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/featureFlagRules/[id].put').default>>>>
+    }
+    '/api/featureFlagRules': {
+      'delete': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/featureFlagRules/index.delete').default>>>>
+      'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/featureFlagRules/index.get').default>>>>
+      'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/featureFlagRules/index.post').default>>>>
+    }
+    '/api/featureFlags/:id': {
+      'delete': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/featureFlags/[id].delete').default>>>>
+      'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/featureFlags/[id].get').default>>>>
+      'put': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/featureFlags/[id].put').default>>>>
+    }
+    '/api/featureFlags': {
+      'delete': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/featureFlags/index.delete').default>>>>
+      'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/featureFlags/index.get').default>>>>
+      'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/featureFlags/index.post').default>>>>
+    }
     '/api/posts/:id': {
       'delete': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/posts/[id].delete').default>>>>
       'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/posts/[id].get').default>>>>

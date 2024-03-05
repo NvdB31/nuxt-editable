@@ -31,7 +31,7 @@ const canHaveMultipleOptions = computed(() => {
 })
 
 const selectedLabels = computed(() => {
-    return fieldOptions.value.filter(option => model.value.includes(option.value)).map(option => option.label)
+    return fieldOptions.value?.filter(option => model.value.includes(option.value)).map(option => option.label)
 })
 
 </script>
@@ -46,7 +46,7 @@ const selectedLabels = computed(() => {
     size="lg"
   >
     <template #label>
-      <template v-if="selectedLabels.length">
+      <template v-if="selectedLabels?.length">
         <UBadge
           v-for="label in selectedLabels"
           :key="label"

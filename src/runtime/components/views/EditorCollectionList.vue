@@ -45,6 +45,11 @@ const columns = computed(() => {
   
 const selected = ref([])
 
+watch(() => view.current.value.collection, () => {
+  emit('requestData', { collection: view.current.value.collection })
+  log({ severity: 'info', message: `Requesting data for ${view.current.value.collection}` })
+})
+
 
 const rows = computed(() => {
   const collectionData = props.data?.[view.current.value.collection] || []

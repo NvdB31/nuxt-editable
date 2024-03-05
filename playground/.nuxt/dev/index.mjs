@@ -99,6 +99,130 @@ const _inlineRuntimeConfig = {
       "ui": {},
       "log": true,
       "collections": {
+        "featureFlags": {
+          "name": {
+            "singular": "Feature Flag",
+            "plural": "Feature Flags"
+          },
+          "icon": "i-heroicons-flag",
+          "schema": {
+            "name": {
+              "type": "text",
+              "help": "A name for the feature flag",
+              "required": true
+            },
+            "key": {
+              "type": "text",
+              "help": "A unique key for the feature flag",
+              "required": true
+            },
+            "environment": {
+              "type": "options",
+              "help": "The environment the feature flag is for",
+              "options": [
+                {
+                  "value": "development",
+                  "label": "Development"
+                },
+                {
+                  "value": "staging",
+                  "label": "Staging"
+                },
+                {
+                  "value": "production",
+                  "label": "Production"
+                }
+              ]
+            },
+            "rules": {
+              "type": "options",
+              "options": {
+                "collection": "featureFlagRules",
+                "labelField": "name",
+                "valueField": "_id"
+              },
+              "help": "All the rules for the feature flag"
+            },
+            "enabled": {
+              "type": "switch",
+              "help": "Whether the feature flag is active or not"
+            }
+          }
+        },
+        "featureFlagRules": {
+          "name": {
+            "singular": "Rule",
+            "plural": "Rules"
+          },
+          "icon": "i-heroicons-adjustments-horizontal",
+          "schema": {
+            "name": {
+              "type": "text",
+              "help": "A descriptive name for the rule",
+              "required": true
+            },
+            "key": {
+              "type": "options",
+              "help": "A unique key for the rule",
+              "options": [
+                {
+                  "value": "title",
+                  "label": "Title"
+                },
+                {
+                  "value": "mid",
+                  "label": "Mid"
+                },
+                {
+                  "value": "date",
+                  "label": "Date"
+                }
+              ],
+              "required": true
+            },
+            "operator": {
+              "type": "options",
+              "options": [
+                {
+                  "value": "eq",
+                  "label": "Equal to"
+                },
+                {
+                  "value": "ne",
+                  "label": "Not equal to"
+                },
+                {
+                  "value": "gt",
+                  "label": "Greater than"
+                },
+                {
+                  "value": "lt",
+                  "label": "Less than"
+                },
+                {
+                  "value": "gte",
+                  "label": "Greater than or equal to"
+                },
+                {
+                  "value": "lte",
+                  "label": "Less than or equal to"
+                },
+                {
+                  "value": "contains",
+                  "label": "Contains"
+                },
+                {
+                  "value": "notContains",
+                  "label": "Does not contain"
+                }
+              ]
+            },
+            "value": {
+              "type": "text",
+              "help": "The value to compare"
+            }
+          }
+        },
         "posts": {
           "name": {
             "singular": "Post",
@@ -132,6 +256,130 @@ const _inlineRuntimeConfig = {
   "database": "mongodb+srv://nick:mango1906@cluster0.i8fslop.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
   "editable": {
     "collections": {
+      "featureFlags": {
+        "name": {
+          "singular": "Feature Flag",
+          "plural": "Feature Flags"
+        },
+        "icon": "i-heroicons-flag",
+        "schema": {
+          "name": {
+            "type": "text",
+            "help": "A name for the feature flag",
+            "required": true
+          },
+          "key": {
+            "type": "text",
+            "help": "A unique key for the feature flag",
+            "required": true
+          },
+          "environment": {
+            "type": "options",
+            "help": "The environment the feature flag is for",
+            "options": [
+              {
+                "value": "development",
+                "label": "Development"
+              },
+              {
+                "value": "staging",
+                "label": "Staging"
+              },
+              {
+                "value": "production",
+                "label": "Production"
+              }
+            ]
+          },
+          "rules": {
+            "type": "options",
+            "options": {
+              "collection": "featureFlagRules",
+              "labelField": "name",
+              "valueField": "_id"
+            },
+            "help": "All the rules for the feature flag"
+          },
+          "enabled": {
+            "type": "switch",
+            "help": "Whether the feature flag is active or not"
+          }
+        }
+      },
+      "featureFlagRules": {
+        "name": {
+          "singular": "Rule",
+          "plural": "Rules"
+        },
+        "icon": "i-heroicons-adjustments-horizontal",
+        "schema": {
+          "name": {
+            "type": "text",
+            "help": "A descriptive name for the rule",
+            "required": true
+          },
+          "key": {
+            "type": "options",
+            "help": "A unique key for the rule",
+            "options": [
+              {
+                "value": "title",
+                "label": "Title"
+              },
+              {
+                "value": "mid",
+                "label": "Mid"
+              },
+              {
+                "value": "date",
+                "label": "Date"
+              }
+            ],
+            "required": true
+          },
+          "operator": {
+            "type": "options",
+            "options": [
+              {
+                "value": "eq",
+                "label": "Equal to"
+              },
+              {
+                "value": "ne",
+                "label": "Not equal to"
+              },
+              {
+                "value": "gt",
+                "label": "Greater than"
+              },
+              {
+                "value": "lt",
+                "label": "Less than"
+              },
+              {
+                "value": "gte",
+                "label": "Greater than or equal to"
+              },
+              {
+                "value": "lte",
+                "label": "Less than or equal to"
+              },
+              {
+                "value": "contains",
+                "label": "Contains"
+              },
+              {
+                "value": "notContains",
+                "label": "Does not contain"
+              }
+            ]
+          },
+          "value": {
+            "type": "text",
+            "help": "The value to compare"
+          }
+        }
+      },
       "posts": {
         "name": {
           "singular": "Post",
@@ -791,6 +1039,18 @@ const errorHandler = (async function errorhandler(error, event) {
   return send(event, html);
 });
 
+const _lazy_uS4MRt = () => Promise.resolve().then(function () { return _id__delete$5; });
+const _lazy_lK7Ya2 = () => Promise.resolve().then(function () { return _id__get$5; });
+const _lazy_CkoOEc = () => Promise.resolve().then(function () { return _id__put$5; });
+const _lazy_qmDJgt = () => Promise.resolve().then(function () { return index_delete$5; });
+const _lazy_530I81 = () => Promise.resolve().then(function () { return index_get$5; });
+const _lazy_R44KND = () => Promise.resolve().then(function () { return index_post$5; });
+const _lazy_rWPwNP = () => Promise.resolve().then(function () { return _id__delete$3; });
+const _lazy_XdTXW0 = () => Promise.resolve().then(function () { return _id__get$3; });
+const _lazy_HS8um6 = () => Promise.resolve().then(function () { return _id__put$3; });
+const _lazy_EY6F6K = () => Promise.resolve().then(function () { return index_delete$3; });
+const _lazy_v3DVsj = () => Promise.resolve().then(function () { return index_get$3; });
+const _lazy_46vVKh = () => Promise.resolve().then(function () { return index_post$3; });
 const _lazy_aO35Gm = () => Promise.resolve().then(function () { return _id__delete$1; });
 const _lazy_PR39g6 = () => Promise.resolve().then(function () { return _id__get$1; });
 const _lazy_1lMeOx = () => Promise.resolve().then(function () { return _id__put$1; });
@@ -800,6 +1060,18 @@ const _lazy_9TJP5F = () => Promise.resolve().then(function () { return index_pos
 const _lazy_dG74Ra = () => Promise.resolve().then(function () { return renderer$1; });
 
 const handlers = [
+  { route: '/api/featureFlagRules/:id', handler: _lazy_uS4MRt, lazy: true, middleware: false, method: "delete" },
+  { route: '/api/featureFlagRules/:id', handler: _lazy_lK7Ya2, lazy: true, middleware: false, method: "get" },
+  { route: '/api/featureFlagRules/:id', handler: _lazy_CkoOEc, lazy: true, middleware: false, method: "put" },
+  { route: '/api/featureFlagRules', handler: _lazy_qmDJgt, lazy: true, middleware: false, method: "delete" },
+  { route: '/api/featureFlagRules', handler: _lazy_530I81, lazy: true, middleware: false, method: "get" },
+  { route: '/api/featureFlagRules', handler: _lazy_R44KND, lazy: true, middleware: false, method: "post" },
+  { route: '/api/featureFlags/:id', handler: _lazy_rWPwNP, lazy: true, middleware: false, method: "delete" },
+  { route: '/api/featureFlags/:id', handler: _lazy_XdTXW0, lazy: true, middleware: false, method: "get" },
+  { route: '/api/featureFlags/:id', handler: _lazy_HS8um6, lazy: true, middleware: false, method: "put" },
+  { route: '/api/featureFlags', handler: _lazy_EY6F6K, lazy: true, middleware: false, method: "delete" },
+  { route: '/api/featureFlags', handler: _lazy_v3DVsj, lazy: true, middleware: false, method: "get" },
+  { route: '/api/featureFlags', handler: _lazy_46vVKh, lazy: true, middleware: false, method: "post" },
   { route: '/api/posts/:id', handler: _lazy_aO35Gm, lazy: true, middleware: false, method: "delete" },
   { route: '/api/posts/:id', handler: _lazy_PR39g6, lazy: true, middleware: false, method: "get" },
   { route: '/api/posts/:id', handler: _lazy_1lMeOx, lazy: true, middleware: false, method: "put" },
@@ -1030,6 +1302,140 @@ const models = Object.entries(config.editable.collections).reduce((acc, [key, co
   acc[key] = mongoose.model(key, new mongoose.Schema(schema, defaultSchemaAttributes));
   return acc;
 }, {});
+
+const _id__delete$4 = defineEventHandler(async (event) => {
+  const id = getRouterParam(event, "id");
+  const model = models.featureFlagRules;
+  return model.deleteOne({ _id: new mongoose.Types.ObjectId(id) });
+});
+
+const _id__delete$5 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: _id__delete$4
+});
+
+const _id__get$4 = defineEventHandler(async (event) => {
+  const id = getRouterParam(event, "id");
+  const model = models.featureFlagRules;
+  return model.findOne({ _id: new mongoose.Types.ObjectId(id) });
+});
+
+const _id__get$5 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: _id__get$4
+});
+
+const _id__put$4 = defineEventHandler(async (event) => {
+  const id = getRouterParam(event, "id");
+  const body = await readBody(event);
+  const model = models.featureFlagRules;
+  return model.updateOne({ _id: new mongoose.Types.ObjectId(id) }, body);
+});
+
+const _id__put$5 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: _id__put$4
+});
+
+const index_delete$4 = defineEventHandler(async (event) => {
+  const { ids } = await readBody(event);
+  const model = models.featureFlagRules;
+  return model.deleteMany({ _id: { $in: ids.map((id) => new mongoose.Types.ObjectId(id)) } });
+});
+
+const index_delete$5 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: index_delete$4
+});
+
+const index_get$4 = defineEventHandler(async () => {
+  const model = models.featureFlagRules;
+  return model.find();
+});
+
+const index_get$5 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: index_get$4
+});
+
+const index_post$4 = defineEventHandler(async (event) => {
+  const body = await readBody(event);
+  const model = models.featureFlagRules;
+  const item = new model(body);
+  return item.save();
+});
+
+const index_post$5 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: index_post$4
+});
+
+const _id__delete$2 = defineEventHandler(async (event) => {
+  const id = getRouterParam(event, "id");
+  const model = models.featureFlags;
+  return model.deleteOne({ _id: new mongoose.Types.ObjectId(id) });
+});
+
+const _id__delete$3 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: _id__delete$2
+});
+
+const _id__get$2 = defineEventHandler(async (event) => {
+  const id = getRouterParam(event, "id");
+  const model = models.featureFlags;
+  return model.findOne({ _id: new mongoose.Types.ObjectId(id) });
+});
+
+const _id__get$3 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: _id__get$2
+});
+
+const _id__put$2 = defineEventHandler(async (event) => {
+  const id = getRouterParam(event, "id");
+  const body = await readBody(event);
+  const model = models.featureFlags;
+  return model.updateOne({ _id: new mongoose.Types.ObjectId(id) }, body);
+});
+
+const _id__put$3 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: _id__put$2
+});
+
+const index_delete$2 = defineEventHandler(async (event) => {
+  const { ids } = await readBody(event);
+  const model = models.featureFlags;
+  return model.deleteMany({ _id: { $in: ids.map((id) => new mongoose.Types.ObjectId(id)) } });
+});
+
+const index_delete$3 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: index_delete$2
+});
+
+const index_get$2 = defineEventHandler(async () => {
+  const model = models.featureFlags;
+  return model.find();
+});
+
+const index_get$3 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: index_get$2
+});
+
+const index_post$2 = defineEventHandler(async (event) => {
+  const body = await readBody(event);
+  const model = models.featureFlags;
+  const item = new model(body);
+  return item.save();
+});
+
+const index_post$3 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: index_post$2
+});
 
 const _id__delete = defineEventHandler(async (event) => {
   const id = getRouterParam(event, "id");
