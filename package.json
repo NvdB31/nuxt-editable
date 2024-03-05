@@ -1,6 +1,6 @@
 {
   "name": "nuxt-editable-alpha",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Nuxt Editable is a free content editor UI to embed in your Nuxt site. It gives you a great editing experience by allowing you to click to edit content in-place.",
   "repository": "https://github.com/NvdB31/nuxt-editable",
   "license": "MIT",
