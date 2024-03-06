@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { EditableCollectionSchemaField } from '~/src/types'
+import type { EditableCollectionSchemaField } from '../../types'
+import { defineProps, computed } from 'vue'
 
 
 const props = defineProps<{
@@ -59,4 +60,4 @@ const selectedLabels = computed(() => {
       <span v-else>Select items</span>
     </template>
   </USelectMenu>
-</template>
+</template>~/src/runtime/types

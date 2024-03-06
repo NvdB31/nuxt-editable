@@ -8,6 +8,8 @@
 </template>
 
 <script setup lang="ts">
+import { defineProps, withDefaults } from 'vue'
+
 withDefaults(defineProps<{
     tag: string
 }>(), {

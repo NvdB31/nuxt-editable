@@ -2,9 +2,10 @@
 import EditorHeading from '../EditorHeading.vue';
 import EditorSection from '../EditorSection.vue';
 import { useEditor } from '../../composables/editor';
-import { computed, defineProps, defineEmits, ref, onMounted } from 'vue';
+import { computed, defineProps, defineEmits, ref, onMounted, watch } from 'vue';
 import { prettifyColumnLabel, formatTimestamps } from '../../utilities'
-import { EditableChangeEventType, type EditableChangeEvent, type EditableCollection, type EditableData, type EditableRequestDataEvent } from '../../../types';
+import { EditableChangeEventType, type EditableChangeEvent, type EditableCollection, type EditableData, type EditableRequestDataEvent } from '../../types'
+import type { Ref } from 'vue'
 
 const { collections, view, log } = useEditor()
 const currentCollection: Ref<EditableCollection> = computed(() => {
@@ -130,4 +131,4 @@ onMounted(() => {
       </template>
     </UTable>
   </EditorSection>
-</template>
+</template>../../types

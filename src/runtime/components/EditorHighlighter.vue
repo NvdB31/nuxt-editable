@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { type Ref } from 'vue'
+import { useState } from '#imports'
+
 const highlightedItem = useState('highlightedItem', () => {}) as Ref<DOMRect | object>
 </script>
 

@@ -29,8 +29,9 @@
 import EditorHeading from '../EditorHeading.vue';
 import EditorSection from '../EditorSection.vue';
 import { useEditor } from '../../composables/editor';
+import { computed } from 'vue';
 
-const { collections, view } = await useEditor()
+const { collections, view } = useEditor()
 
 const collectionsRows = computed(() => {
     return Object.entries(collections).map(([key, collection]) => {

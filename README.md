@@ -1,3 +1,5 @@
+[![Nuxt Editable Banner](./.github/assets/banner.svg)](https://nuxt-editable.nickvandenberg.dev)
+
 # Nuxt Editable
 
 [![npm version][npm-version-src]][npm-version-href]

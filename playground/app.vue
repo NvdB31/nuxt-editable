@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type EditableChangeEvent, EditableChangeEventType, type EditableRequestDataEvent } from '../src/types';
+import { type EditableChangeEvent, EditableChangeEventType, type EditableRequestDataEvent } from '../src/runtime/types'
 
 // Your currently logged in user
 const currentEditorUser = computed(() => ({ id: 0, name: 'John Doe' }))
@@ -62,4 +62,4 @@ const onEditorDataChange = async (event: EditableChangeEvent) => {
     @change="onEditorDataChange"
     @request-data="onEditorRequestData"
   />
-</template>
+</template>../src/runtime/types

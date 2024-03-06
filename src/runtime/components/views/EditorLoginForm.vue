@@ -4,6 +4,8 @@ import EditorSection from '../EditorSection.vue';
 
 import { object, string, type InferType } from 'yup'
 import type { FormSubmitEvent } from '#ui/types'
+import { useEditor } from '../../composables/editor';
+import { reactive } from 'vue'
 
 const { toast, view } = await useEditor();
 

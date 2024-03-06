@@ -1,4 +1,4 @@
-import { type EditableCollection, type EditableCollectionKey } from '../../types/collections'
+import { type EditableCollection, type EditableCollectionKey } from '../types/collections'
 
 // Convert the schema types to string equivalent by reducing and calling the conversion function
 export const convertCollectionsToStringSchemas = (collections: EditableCollection[]) => {

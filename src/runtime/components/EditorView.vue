@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const { view } = await useEditor()
+import { useEditor } from '../composables/editor'
+import { computed } from 'vue'
+const { view } = useEditor()
 
 const isNotLoggedInView = computed(() => {
   return ['signup', 'login', 'reset-password'].includes(view.current.value.view)

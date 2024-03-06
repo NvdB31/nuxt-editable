@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import EditorLogo from "./EditorLogo.vue"
 import { useEditor } from "../composables/editor";
-import type { EditableUser } from "~/src/types";
+import type { EditableUser } from '../types'
+import { computed, defineProps } from 'vue'
 const { view, collections } = useEditor();
 
 const collectionNavItems = computed(() => {

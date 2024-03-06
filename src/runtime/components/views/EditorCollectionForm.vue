@@ -5,7 +5,8 @@ import EditorDeletionModal from '../EditorDeletionModal.vue';
 import { useEditor } from '../../composables/editor';
 import * as yup from 'yup'
 import { prettifyColumnLabel, formatTimestamps } from '../../utilities';
-import type { EditableData } from '~/src/types';
+import type { EditableData } from '../../types'
+import { defineProps, defineEmits, computed, ref, watch, onMounted } from 'vue'
 
 // Fields
 import EditorRichTextField from '../fields/EditorRichTextField.vue';
@@ -312,4 +313,4 @@ onMounted(() => {
       @delete="onDelete"
     />
   </EditorSection>
-</template>
+</template>~/src/runtime/types

@@ -1,4 +1,4 @@
-import { EditableCollectionSchemaFieldType, type EditableConfig } from "../src/types";
+import { EditableCollectionSchemaFieldType, type EditableConfig } from "../src/runtime/types";
 
 const config: EditableConfig = {
   collections: {

@@ -1,5 +1,4 @@
 import { defineNuxtModule, addPlugin, createResolver, addImportsDir, installModule, addComponent } from '@nuxt/kit'
-import type { EditableConfig } from './types'
 
 export default defineNuxtModule({
   meta: {

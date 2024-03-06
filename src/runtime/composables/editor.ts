@@ -1,4 +1,6 @@
-import type { EditableCollectionKey, EditableViewType, EditableView, EditableLogEvent } from "~/src/types";
+import type { EditableCollectionKey, EditableViewType, EditableView, EditableLogEvent } from "~/src/runtime/types";
+import { ref, computed } from 'vue'
+import { useRouter, useRoute, useState } from '#imports'
 
 const isEditorCollapsed = ref(true)
 

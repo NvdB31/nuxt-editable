@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { type EditableCollectionSchema, type EditableCollectionKey, type EditableCollection } from '../../src/types/collections'
+import { type EditableCollectionSchema, type EditableCollectionKey, type EditableCollection } from '../../src/runtime/types/collections'
 
 const defaultSchemaAttributes = {
   timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }

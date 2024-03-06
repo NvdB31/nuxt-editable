@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useEditor } from '../composables/editor';
+import { defineProps, ref } from 'vue';
 
 defineProps<{
   size: 'sm' | 'md' | 'lg';
