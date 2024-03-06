@@ -151,6 +151,11 @@ const onEditorChangeData = async (event: EditableChangeEvent) => {
 You'll typically want to allow users to log in to the editor. You can provide the currently logged in user through the `user` prop. On the built-version of your Nuxt app, the Editor will default to a login screen if the `user` has not been provided. The editor emits a `login` and `logout` event for you to handle accordingly.
 
 ## Enabling live previews
+Allowing users to click and navigate to the editable item directly provides for a great editor UX. To enable this, you need to provide the editor a hint to which `collection` and unique `ID` your item refers to. To make this easy, the module exposes a `v-editable` directive to your Nuxt app. Example:
+
+```html
+<h1 v-editable="{ collection: 'posts', id: '23984832' }">Some great post title</h1>
+```
 
 
 ## Schemes
