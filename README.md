@@ -32,7 +32,7 @@ Check out these examples to get up and running in no time:
 
 Here's a step-by-step setup:
 
-1. Add `nuxt-editable` dependency to your project
+### 1. Install
 
 ```bash
 # Using pnpm
@@ -45,15 +45,16 @@ yarn add --dev nuxt-editable
 npm install --save-dev nuxt-editable
 ```
 
-2. Add `nuxt-editable` to the `modules` section of `nuxt.config.ts`
+Now, add `nuxt-editable` to the `modules` section of `nuxt.config.ts`
 
 ```js
 export default defineNuxtConfig({
   modules: ['nuxt-editable'],
 });
 ```
-3. Configure your schemes
-In Nuxt Editable works by defining a scheme for your all the data entities you want to edit. Here's an example:
+
+### 3. Configure your collection schemes
+Nuxt Editable requires a scheme to know what you data looks like. It uses this to render the tables and form fields. Here's an example for `Posts` collection:
 
 ```js
 posts: {
@@ -85,10 +86,12 @@ posts: {
   }
 ```
 
-4. Add the editor component to your app
-You can add the Editor anywhere in your app, but to allow the editor to be rendered regardless of which route you're on, it's probably best to add the editor to your `app.vue`.
+### 4. Add the editor to your app
+You can add the Editor component anywhere in your Nuxt app, but to allow the editor to be rendered regardless of which route you're on, it's probably best to add the editor to your `app.vue`.
 
 ```js
+// app.vue
+
 <NuxtEditableEditor
   :user="currentEditorUser"
   :data="currentEditorData"
@@ -97,13 +100,14 @@ You can add the Editor anywhere in your app, but to allow the editor to be rende
   @request-data="onEditorRequestData"
 />
 ```
-
 Users can bring up the editor by passing `?editable=true` in the route.
 
-6. Provide data to the editor
+### 6. Provide data to the editor
 With your `Posts` collection defined, bringing up the editor will now list a Posts item. When a user clicks on a collection or a collection item, the editor requests data for it. You need to listen to the `requestData` event. Example:
 
 ```js
+// app.vue
+
 const currentEditorData = ref({
     posts: []
 })
@@ -115,10 +119,12 @@ const onEditorRequestData = async (event: EditableRequestDataEvent) => {
 }
 ```
 
-6. Listen for data updates from the editor
+### 7. Listen for data updates from the editor
 When a user makes a change, e.g. when creating, updating or deleting an item, the editor emits a `change` event. You need to listen for the `change` event and update data accordingly. Example:
 
 ```js
+// app.vue
+
 const onEditorChangeData = async (event: EditableChangeEvent) => {
   const { type, payload } = event
   isPendingEditorData.value = true
@@ -135,12 +141,20 @@ const onEditorChangeData = async (event: EditableChangeEvent) => {
     // Other cases for updating and deleting here
   }
   isPendingEditorData.value = false
+
+  // Optional: Refresh the data on your current page so it reflects edits that have just been made!
   refreshNuxtData()
 }
 ```
 
-7. Add a user to the editor
+### 8. Add a user to the editor
 You'll typically want to allow users to log in to the editor. You can provide the currently logged in user through the `user` prop. On the built-version of your Nuxt app, the Editor will default to a login screen if the `user` has not been provided. The editor emits a `login` and `logout` event for you to handle accordingly.
+
+## Roadmap
+Nuxt Editable is in its early stages, so there's still a few things that are on my list to build in order to make this ready for production. Beyond this, there's a lot more this project could become:
+- State: Keeping edits and new items in the local state so users can freely navigate around and leave the editor, without losing changes.
+- Publish: Instead of creating and update items directly, configure the editor to keep local changes changes in a batch, and allow the users to hit 'Publish', to commit all changes (e.g. as part of a database transaction).
+- Extendable UI: The ability to swap the default form fields out for your own custom ones, to cover complex use-cases.
 
 ## Development
 
@@ -178,3 +192,10 @@ npm run release
 [license-href]: https://npmjs.com/package/nuxt-editable
 [nuxt-src]: https://img.shields.io/badge/Nuxt-020420?logo=nuxt.js
 [nuxt-href]: https://nuxt.com
+
+## Special thanks
+I couldn't have built Nuxt Editable without standing on the shoulders of giants. A special thanks goes to the incredible work done by:
+- [Nuxt UI](https://ui.nuxt.com) for the solid UI components the Editor is built with.
+- [Yup](https://github.com/jquense/yup) for form validation.
+- [Tiptap](https://tiptap.dev/) for the extremely well-built rich-text content editor.
+  
