@@ -15,7 +15,7 @@ Nuxt Editable is a free content editor UI to embed in your Nuxt site. It gives y
 
 ## Features
 
-- Drop-in a component and live edit your Nuxt site.
+- Drop-in a component to edit your Nuxt site with a **live preview**!
 - Works with _any_ content by defining your own schemas.
 - Bring your own data – integrates with any database or headless CMS.
 
@@ -150,8 +150,19 @@ const onEditorChangeData = async (event: EditableChangeEvent) => {
 ### 8. Add a user to the editor
 You'll typically want to allow users to log in to the editor. You can provide the currently logged in user through the `user` prop. On the built-version of your Nuxt app, the Editor will default to a login screen if the `user` has not been provided. The editor emits a `login` and `logout` event for you to handle accordingly.
 
+## Enabling live previews
+
+
+## Schemes
+Your scheme fields can contain different types, such as `text`, `number`, `rich-text` and more. For a full list, refer to [`EditableCollectionSchemaFieldType`]().
+
+## Validation
+Your scheme can contain validators such as `required`, `minLength`, `date`. For a list of supported validators, refer to: [`EditableCollectionSchemaFieldValidator`]().
+
 ## Roadmap
-Nuxt Editable is in its early stages, so there's still a few things that are on my list to build in order to make this ready for production. Beyond this, there's a lot more this project could become:
+Nuxt Editable is in its early stages, so there's still a few things that are on my list to build in order to make this ready for production.
+
+Beyond this, there's a lot more this project could become:
 - State: Keeping edits and new items in the local state so users can freely navigate around and leave the editor, without losing changes.
 - Publish: Instead of creating and update items directly, configure the editor to keep local changes changes in a batch, and allow the users to hit 'Publish', to commit all changes (e.g. as part of a database transaction).
 - Extendable UI: The ability to swap the default form fields out for your own custom ones, to cover complex use-cases.
