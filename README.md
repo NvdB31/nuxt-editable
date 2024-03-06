@@ -15,11 +15,22 @@ Nuxt Editable is a free content editor UI to embed in your Nuxt site. It gives y
 
 ## Features
 
-- Live edit your Nuxt site
-- Works with any content by defining your own schemas.
+- Drop-in a component and live edit your Nuxt site.
+- Works with _any_ content by defining your own schemas.
 - Bring your own data – integrates with any database or headless CMS.
 
+## Examples
+Check out these examples to get up and running in no time:
+
+- [Firebase (Coming soon)](#)
+- [MongoDB (Coming soon)](#)
+- [PostgreSQL (Coming soon)](#)
+
 ## Quick Setup
+
+**TL;DR** Add `NuxtEditableEditor` to your `app.vue`. Provide items through the `items` prop. Listen for data changes through `@change`. That's it! ✨
+
+Here's a step-by-step setup:
 
 1. Add `nuxt-editable` dependency to your project
 
@@ -41,8 +52,95 @@ export default defineNuxtConfig({
   modules: ['nuxt-editable'],
 });
 ```
+3. Configure your schemes
+In Nuxt Editable works by defining a scheme for your all the data entities you want to edit. Here's an example:
 
-That's it! You can now use Nuxt Editable in your Nuxt app ✨
+```js
+posts: {
+      name: {
+        singular: 'Post',
+        plural: 'Posts'
+      },
+      icon: 'i-heroicons-newspaper',
+      schema: {
+        title: {
+          type: EditableCollectionSchemaFieldType.Text,
+          help: 'A title for the post',
+          required: true
+        },
+        slug: {
+          type: EditableCollectionSchemaFieldType.Text,
+          help: 'A URL-friendly slug for the post page',
+          required: true
+        },
+        excerpt: {
+          type: EditableCollectionSchemaFieldType.Text,
+          help: 'A short excerpt of the post'
+        },
+        content: {
+          type: EditableCollectionSchemaFieldType.RichText,
+          help: 'The content of the post'
+        }
+      }
+  }
+```
+
+4. Add the editor component to your app
+You can add the Editor anywhere in your app, but to allow the editor to be rendered regardless of which route you're on, it's probably best to add the editor to your `app.vue`.
+
+```js
+<NuxtEditableEditor
+  :user="currentEditorUser"
+  :data="currentEditorData"
+  :pending="isPendingEditorData"
+  @change="onEditorChangeData"
+  @request-data="onEditorRequestData"
+/>
+```
+
+Users can bring up the editor by passing `?editable=true` in the route.
+
+6. Provide data to the editor
+With your `Posts` collection defined, bringing up the editor will now list a Posts item. When a user clicks on a collection or a collection item, the editor requests data for it. You need to listen to the `requestData` event. Example:
+
+```js
+const currentEditorData = ref({
+    posts: []
+})
+
+const onEditorRequestData = async (event: EditableRequestDataEvent) => {
+  isPendingEditorData.value = true
+  currentEditorData.value.posts = await $fetch(`/api/posts`)
+  isPendingEditorData.value = false
+}
+```
+
+6. Listen for data updates from the editor
+When a user makes a change, e.g. when creating, updating or deleting an item, the editor emits a `change` event. You need to listen for the `change` event and update data accordingly. Example:
+
+```js
+const onEditorChangeData = async (event: EditableChangeEvent) => {
+  const { type, payload } = event
+  isPendingEditorData.value = true
+
+  switch (type) {
+    // When creating an item
+    case EditableChangeEventType.Create:
+      $fetch(`/api/posts`, {
+        method: 'POST',
+        body: payload.data
+      })
+      break
+
+    // Other cases for updating and deleting here
+  }
+  isPendingEditorData.value = false
+  refreshNuxtData()
+}
+```
+
+7. Add a user to the editor
+You'll typically want to allow users to log in to the editor. You can provide the currently logged in user through the `user` prop. On the built-version of your Nuxt app, the Editor will default to a login screen if the `user` has not been provided. The editor emits a `login` and `logout` event for you to handle accordingly.
 
 ## Development
 
