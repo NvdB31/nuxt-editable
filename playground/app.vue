@@ -1,24 +1,23 @@
 <script setup lang="ts">
 import { type EditableChangeEvent, EditableChangeEventType, type EditableRequestDataEvent } from '../src/runtime/types'
 
-// Your currently logged in user
 const currentEditorUser = computed(() => ({ id: 0, name: 'John Doe' }))
-
-// Your currently edited data
 const currentEditorData = ref({
     posts: []
 })
-
 const isPendingEditorData = ref(false)
 
 // Handle data requests by fetching the data from your server
 const onEditorRequestData = async (event: EditableRequestDataEvent) => {
+  isPendingEditorData.value = true
   currentEditorData.value[event.collection] = await $fetch(`/api/${event.collection}`)
+  isPendingEditorData.value = false
 }
 
 // Handle data changes by sending the new data to your server
-const onEditorDataChange = async (event: EditableChangeEvent) => {
+const onEditorChangeData = async (event: EditableChangeEvent) => {
   const { type, payload } = event
+  isPendingEditorData.value = true
 
   switch (type) {
     case EditableChangeEventType.Create:
@@ -48,7 +47,7 @@ const onEditorDataChange = async (event: EditableChangeEvent) => {
       }
       break
   }
-
+  isPendingEditorData.value = false
   refreshNuxtData()
 }
 </script>
@@ -59,7 +58,7 @@ const onEditorDataChange = async (event: EditableChangeEvent) => {
     :user="currentEditorUser"
     :data="currentEditorData"
     :pending="isPendingEditorData"
-    @change="onEditorDataChange"
+    @change="onEditorChangeData"
     @request-data="onEditorRequestData"
   />
-</template>../src/runtime/types
+</template>

@@ -16,9 +16,8 @@ Nuxt Editable is a free content editor UI to embed in your Nuxt site. It gives y
 ## Features
 
 - Live edit your Nuxt site
-- Works with any content by defining your own schemas
-- Bring your own database – works with any CMS or API.
-- Hig
+- Works with any content by defining your own schemas.
+- Bring your own data – integrates with any database or headless CMS.
 
 ## Quick Setup
 
