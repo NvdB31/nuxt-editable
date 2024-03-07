@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<<script setup lang="ts">
 import AccountForm from '../AccountForm.vue';
 import EditorSection from '../EditorSection.vue';
 
@@ -80,4 +80,4 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 </template>
 
 <style scoped>
-</style>
+</style>>

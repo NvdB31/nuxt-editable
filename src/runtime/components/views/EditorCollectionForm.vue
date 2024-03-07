@@ -3,10 +3,11 @@ import EditorHeading from '../EditorHeading.vue';
 import EditorSection from '../EditorSection.vue';
 import EditorDeletionModal from '../EditorDeletionModal.vue';
 import { useEditor } from '../../composables/editor';
-import * as yup from 'yup'
+//import * as yup from 'yup'
+import { string, date, number, array, boolean, object } from 'yup'
 import { prettifyColumnLabel, formatTimestamps } from '../../utilities';
 import type { EditableData } from '../../types'
-import { defineProps, defineEmits, computed, ref, watch, onMounted } from 'vue'
+import { defineProps, computed, ref, watch, onMounted } from 'vue'
 
 // Fields
 import EditorRichTextField from '../fields/EditorRichTextField.vue';
@@ -42,19 +43,19 @@ const componentsForFieldTypes = {
 }
 
 const defaultValidatorsForFieldTypes = {
-  text: yup.string(),
-  'multiline-text': yup.string(),
-  email: yup.string().email(),
-  file: yup.string(),
-  image: yup.string(),
-  url: yup.string().url(),
-  phone: yup.string().matches(/^[0-9]+$/, 'This field must be a valid phone number.'),
-  number: yup.number(),
-  date: yup.date(),
-  datetime: yup.date(),
-  options: yup.array(),
-  switch: yup.boolean(),
-  'rich-text': yup.string(),
+  text: string(),
+  'multiline-text': string(),
+  email: string().email(),
+  file: string(),
+  image: string(),
+  url: string().url(),
+  phone: string().matches(/^[0-9]+$/, 'This field must be a valid phone number.'),
+  number: number(),
+  date: date(),
+  datetime: date(),
+  options: array(),
+  switch: boolean(),
+  'rich-text': string(),
 }
 
 const { collections, view, log } = useEditor()
@@ -118,19 +119,19 @@ function applyValidators(validator, validators) {
         validator = validator.matches(value);
         break;
       case 'email':
-        if (value) validator = yup.string().email();
+        if (value) validator = string().email();
         break;
       case 'url':
-        if (value) validator = yup.string().url();
+        if (value) validator = string().url();
         break;
       case 'phone':
-        if (value) validator = yup.string().matches(/^[0-9]+$/);
+        if (value) validator = string().matches(/^[0-9]+$/);
         break;
       case 'datetime':
-        if (value) validator = yup.date();
+        if (value) validator = date();
         break;
       case 'date':
-        if (value) validator = yup.date();
+        if (value) validator = date();
         break;
       case 'lowercase':
         if (value) validator = validator.lowercase();
@@ -149,11 +150,11 @@ function getYupValidationSchema(schema) {
 
   Object.keys(schema).forEach(key => {
     const { type, ...validators } = schema[key];
-    const baseValidator = defaultValidatorsForFieldTypes[type] || yup.string(); // Fallback to string validator
+    const baseValidator = defaultValidatorsForFieldTypes[type] || string(); // Fallback to string validator
     yupSchemaFields[key] = applyValidators(baseValidator, validators);
   });
 
-  return yup.object(yupSchemaFields)
+  return object(yupSchemaFields)
 }
 
 const schema = getYupValidationSchema(currentCollection.value.schema)
@@ -313,4 +314,4 @@ onMounted(() => {
       @delete="onDelete"
     />
   </EditorSection>
-</template>~/src/runtime/types
+</template>

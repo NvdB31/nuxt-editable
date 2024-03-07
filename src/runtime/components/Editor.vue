@@ -10,7 +10,7 @@ import EditorSignupForm from './views/EditorSignupForm.vue';
 import EditorLoginForm from './views/EditorLoginForm.vue';
 import EditorHighlighter from './EditorHighlighter.vue';
 
-import { defineProps, defineEmits, computed, watch } from 'vue'
+import { defineProps, computed, watch } from 'vue'
 import { defineShortcuts } from '#imports';
 
 import type { EditableEditorEvents, EditableEditorProps, EditableView } from '../types'
