@@ -50,7 +50,7 @@ const { ui } = useEditor();
       />
     </svg>
     <span
-      class="font-bold ml-1 tracking-tight"
+      class="font-bold ml-1 tracking-tight hidden sm:block"
       :class="fontSizes[size]"
     >Nuxt <span class="text-[#00DC82]">Editable</span></span>
   </div>

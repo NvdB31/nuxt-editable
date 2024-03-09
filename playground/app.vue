@@ -10,7 +10,11 @@ const isPendingEditorData = ref(false)
 // Handle data requests by fetching the data from your server
 const onEditorRequestData = async (event: EditableRequestDataEvent) => {
   isPendingEditorData.value = true
-  currentEditorData.value[event.collection] = await $fetch(`/api/${event.collection}`)
+  currentEditorData.value[event.collection] = await $fetch(`/api/${event.collection}`, {
+    params: {
+      search: event.search,
+    }
+  })
   isPendingEditorData.value = false
 }
 

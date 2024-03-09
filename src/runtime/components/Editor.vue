@@ -51,7 +51,7 @@ watch(view.current, (view: EditableView) => {
 <template>
   <div
     v-if="isEnabled"
-    class="overflow-hidden px-4 fixed w-screen flex flex-col justify-end transition-colors"
+    class="overflow-hidden sm:px-4 fixed w-screen flex flex-col justify-end transition-colors"
     :class="{'h-26 pt-0 bottom-0': isCollapsed, 'bg-black/10 dark:bg-black/5 h-screen inset-0': !isCollapsed}"
     v-bind="$attrs"
   >
@@ -77,8 +77,8 @@ watch(view.current, (view: EditableView) => {
 
     <EditorBody>
       <EditorNavbar
-        v-if="!isAuthView && user"
-        :user="user"
+      v-if="!isAuthView && user"
+      :user="user"
       />
       <EditorView :class="{'!h-0': isCollapsed }">
         <UContainer>
@@ -110,4 +110,4 @@ watch(view.current, (view: EditableView) => {
     </EditorBody>
   </div>
   <EditorHighlighter />
-</template>../types
+</template>

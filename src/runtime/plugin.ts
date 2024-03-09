@@ -10,25 +10,20 @@ export default defineNuxtPlugin((nuxtApp) => {
       if (id) el.setAttribute("data-editable-id", id);
 
       const highlightedItem = useState('highlightedItem', () => null)
-      const { view, collections } = useEditor()
-      const collectionInfo = collections[collection]
+      const { view } = useEditor()
 
-      el.addEventListener("mouseenter", (e) => {
-        e.stopPropagation();
+      el.addEventListener("mouseover", (e) => {
         el.style.cursor = "pointer";
-
-        highlightedItem.value = { rect: el.getBoundingClientRect(), collection: collectionInfo }
+        highlightedItem.value = { rect: el.getBoundingClientRect(), collection }
       });
 
       el.addEventListener("mouseleave", (e) => {
         highlightedItem.value = null
         el.style.cursor = "default";
-        e.stopPropagation();
       });
 
       el.addEventListener("click", (e) => {
         highlightedItem.value = null
-        e.stopPropagation();
         view.go({ view: 'collections', collection, item: id })
       });
     }

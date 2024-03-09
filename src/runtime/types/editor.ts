@@ -29,6 +29,7 @@ export type EditableViewChangeEvent = EditableView
 
 export type EditableRequestDataEvent = {
   collection: EditableCollectionKey
+  search?: string
 }
 
 export type EditableEditorEvents = {

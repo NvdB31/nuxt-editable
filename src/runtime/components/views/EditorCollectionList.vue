@@ -1,9 +1,18 @@
 <script setup lang="ts">
+// Components
 import EditorHeading from '../EditorHeading.vue';
 import EditorSection from '../EditorSection.vue';
+import EditorDeletionModal from '../EditorDeletionModal.vue';
+
+// Composables
 import { useEditor } from '../../composables/editor';
-import { computed, defineProps, defineEmits, ref, onMounted, watch } from 'vue';
+import { useDebounceFn } from '@vueuse/core'
+
+// Utilities
 import { prettifyColumnLabel, formatTimestamps } from '../../utilities'
+import { computed, defineProps, ref, onMounted, watch } from 'vue';
+
+// Types
 import { EditableChangeEventType, type EditableChangeEvent, type EditableCollection, type EditableData, type EditableRequestDataEvent } from '../../types'
 import type { Ref } from 'vue'
 
@@ -42,15 +51,7 @@ const columns = computed(() => {
       key: 'updated_at',
       sortable: true
     }]
-  })
-  
-const selected = ref([])
-
-watch(() => view.current.value.collection, () => {
-  emit('requestData', { collection: view.current.value.collection })
-  log({ severity: 'info', message: `Requesting data for ${view.current.value.collection}` })
 })
-
 
 const rows = computed(() => {
   const collectionData = props.data?.[view.current.value.collection] || []
@@ -64,11 +65,29 @@ const rows = computed(() => {
   })
 })
 
-const deleteItems = async () => {
+// List State
+const selected = ref([])
+const showDeletionModal = ref(false)
+
+watch(() => view.current.value.collection, () => {
+  emit('requestData', { collection: view.current.value.collection })
+  log({ severity: 'info', message: `Requesting data for ${view.current.value.collection}` })
+})
+
+
+// Methods
+const onDeleteItems = async () => {
   emit('change', { type: EditableChangeEventType.Delete, payload: { collection: view.current.value.collection, data: selected.value } })
   log({ severity: 'info', message: `Deleting data for ${view.current.value.collection}, ${selected.value}` })
   selected.value = []
+  showDeletionModal.value = false
+  throw new Error('Not implemented')
 }
+
+const onSearch = useDebounceFn((e) => {
+    emit('requestData', { collection: view.current.value.collection, search: e.target.value })
+    log({ severity: 'info', message: `Requesting data for ${view.current.value.collection} with search term: "${e.target.value}"` })
+  }, 500)
 
 onMounted(() => {
   emit('requestData', { collection: view.current.value.collection })
@@ -78,7 +97,7 @@ onMounted(() => {
 
 <template>
   <EditorSection>
-    <div class="grid grid-cols-2 items-end mb-8">
+    <div class="grid grid-cols-2 items-end mb-4 sm:mb-8">
       <EditorHeading
         tag="h1"
         class="capitalize"
@@ -91,6 +110,7 @@ onMounted(() => {
           size="lg"
           color="gray"
           :trailing="false"
+          @input="onSearch"
           :placeholder="`Search ${currentCollection.name.plural.toLowerCase()}`"
         />
         <UButton
@@ -98,7 +118,7 @@ onMounted(() => {
           size="lg"
           color="gray"
           icon="i-heroicons-trash"
-          @click="deleteItems"
+          @click="showDeletionModal = true"
         >
           Delete
         </UButton>
@@ -123,7 +143,7 @@ onMounted(() => {
       :columns="columns"
       :loading="pending"
       class="border dark:border-gray-800 rounded-lg bg-white dark:bg-gray-950"
-      :empty-state="{ icon: 'i-heroicons-queue-list', label: `No ${currentCollection.name.plural}.` }"
+      :empty-state="{ icon: currentCollection.icon, label: `No ${currentCollection.name.plural}.` }"
       @select="row => view.go({ view: 'collections', collection: view.current.value.collection, item: row.id || row._id })"
     >
       <template #name-data="{ row }">
@@ -131,4 +151,8 @@ onMounted(() => {
       </template>
     </UTable>
   </EditorSection>
-</template>../../types
+  <EditorDeletionModal
+      v-model="showDeletionModal"
+      @delete="onDeleteItems"
+    />
+</template>

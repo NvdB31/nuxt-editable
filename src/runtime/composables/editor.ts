@@ -52,7 +52,7 @@ export const useEditor = () => {
         ui: config.public.editable.ui,
 
         log: (event: EditableLogEvent) => {
-            if (config.public.editable.log !== true || event.severity !== config.public.editable.log) return
+            if (!config.public.editable.log) return
             console[event.severity](`[Nuxt Editable] ${event.message}`)
         }
     }

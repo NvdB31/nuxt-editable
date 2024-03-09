@@ -17,8 +17,8 @@ const fieldOptions = computed(() => {
         // Assume a collection reference was given
         return props.data[props.field.options.collection]?.map(item => {
             return {
-                value: item[props.field.options.valueField] || item.id || item._id,
-                label: item[props.field.options.labelField] || item
+                value: props.field.options.valueField ? item[props.field.options.valueField] : item,
+                label: item[props.field.options.labelField] || item.name || item.id || item
             }
         
         })
@@ -27,12 +27,13 @@ const fieldOptions = computed(() => {
     }
 })
 
-const canHaveMultipleOptions = computed(() => {
-  return props.field.min > 1 || props.field.moreThan === 1 || props.field.length > 1 || true
+const selectedLabels = computed(() => {
+  return fieldOptions.value?.filter(option => model.value.includes(option.value)).map(option => option.label)
 })
 
-const selectedLabels = computed(() => {
-    return fieldOptions.value?.filter(option => model.value.includes(option.value)).map(option => option.label)
+const isCollectionOptionsField = computed(() => props.field.options.collection)
+const options = computed(() => {
+  return props.field.options.collection ? props.data[props.field.options.collection] : props.field.options
 })
 
 </script>
@@ -41,9 +42,12 @@ const selectedLabels = computed(() => {
   <USelectMenu
     v-model="model"
     v-bind="componentProps"
-    :options="fieldOptions"
-    :multiple="canHaveMultipleOptions"
-    value-attribute="value"
+    :options="options"
+    multiple
+    :value-attribute="isCollectionOptionsField ? props.field.options.valueField : 'value'"
+    :option-attribute="isCollectionOptionsField ? props.field.options.labelField : 'label'"
+    :by="isCollectionOptionsField ? props.field.options.keyField || 'id' : undefined"
+    clear-search-on-close
     size="lg"
   >
     <template #label>
@@ -60,4 +64,4 @@ const selectedLabels = computed(() => {
       <span v-else>Select items</span>
     </template>
   </USelectMenu>
-</template>~/src/runtime/types
+</template>

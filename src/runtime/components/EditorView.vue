@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useEditor } from '../composables/editor'
 import { computed } from 'vue'
+import EditorError from './EditorError.vue';
 const { view } = useEditor()
 
 const isNotLoggedInView = computed(() => {
@@ -16,6 +17,11 @@ const isNotLoggedInView = computed(() => {
       'h-[calc(100vh-25vh)]': !isNotLoggedInView
     }"
   >
+  <NuxtErrorBoundary>
+          <template #error="{ error , clearError }">
+          <EditorError :error="error" :clear-error="clearError" />
+        </template>
     <slot />
+    </NuxtErrorBoundary>
   </div>
 </template>

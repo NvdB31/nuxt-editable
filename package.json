@@ -29,6 +29,7 @@
     "test:watch": "vitest watch"
   },
   "dependencies": {
+    "@core": "link:vueuse/@core",
     "@nuxt/kit": "^3.10.3",
     "@nuxt/ui": "^2.14.1",
     "@nuxtjs/google-fonts": "^3.1.3",

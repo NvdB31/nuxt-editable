@@ -38,7 +38,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   <EditorSection>
     <AccountForm title="Sign in to manage your site">
       <UForm
-        class="col-span-3 grid grid-cols-3 gap-8 items-start"
+        class="col-span-3 grid sm:grid-cols-3 gap-8 items-start"
         :schema="schema"
         :state="state"
         @submit="onSubmit"

@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   modules: [
     ['../src/module', config],
   ],
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   runtimeConfig: {
     database: process.env.MONGODB_URI,
   },

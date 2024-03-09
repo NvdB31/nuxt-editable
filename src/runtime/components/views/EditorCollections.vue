@@ -2,7 +2,7 @@
   <EditorSection>
     <EditorHeading
       tag="h1"
-      class="mb-8"
+      class="mb-4 sm:mb-8"
     >
       Collections
     </EditorHeading>

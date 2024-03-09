@@ -1,15 +1,20 @@
 <script setup lang="ts">
 
-const { data: posts } = useFetch('/api/posts')
+const { data: products } = useFetch('/api/products', { 
+  query: {
+    skip: 5,
+    limit: 4
+  }
+})
 </script>
 
 <template>
-  <section class="py-32">
+  <section class="py-16 sm:py-32">
     <UContainer class="max-w-6xl">
-      <h1 class="text-center text-5xl font-bold mb-10">
+      <h1 class="text-center text-4xl sm:text-5xl font-bold mb-10">
         👋 Welcome to Nuxt Editable!
       </h1>
-      <div class="grid grid-cols-2 gap-8">
+      <div class="grid sm:grid-cols-2 gap-8">
         <UCard>
           <h2 class="font-bold mb-4 text-xl">
             Get started
@@ -27,7 +32,7 @@ const { data: posts } = useFetch('/api/posts')
             🕹️ Try the editor
           </h2>
           <p class="mb-4">
-            There's a simple Posts collection setup for you to play around with. Try enabling the edit mode and hover over the posts below!
+            There's a simple Products collection setup for you to play around with. Try enabling the edit mode and hover over the posts below!
           </p>
           <UButton
             to="?editable=true"
@@ -38,20 +43,25 @@ const { data: posts } = useFetch('/api/posts')
             Enable Editor
           </UButton>
           <UDivider class="my-8" />
-          <ul class="divide-y divide-gray-200 dark:divide-gray-800"> 
+          <ul class="grid grid-cols-2 gap-4"> 
             <li
-              v-for="post in posts"
-              :key="post._id"
-              v-editable="{ id: post._id, collection: 'posts' }"
-              class="py-4"
+              v-for="product in products"
+              :key="product.id"
+              v-editable="{ id: product.id, collection: 'products' }"
+              class="py-4 flex justify-center gap-4 flex-col items-center text-center"
             >
-              <client-only><small class="mb-2 block">{{ new Date(post.created_at).toLocaleDateString() }}</small></client-only>
-              <h3 class="text-lg font-bold mb-4">
-                {{ post.title }}
-              </h3>
-              <p class="text-gray">
-                {{ post.excerpt }}
-              </p>
+              <div class="bg-gray-100 w-32 h-32 flex items-center justify-center text-gray-300">
+                <UIcon name="i-heroicons-shopping-bag" class="text-5xl" />
+              </div>
+              <div class="leading-relaxed">
+                <div class="text-gray-500 text-sm">{{ product.brand }}</div>
+                <h3 class="font-bold">
+                  {{ product.title }}
+                </h3>
+                <p class="text-gray">
+                  ${{ product.price }}
+                </p>
+              </div>
             </li>
           </ul>
         </UCard>

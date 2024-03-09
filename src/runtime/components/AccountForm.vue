@@ -8,7 +8,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="grid grid-cols-4 gap-8 h-full items-end">
+  <div class="grid sm:grid-cols-4 gap-8 h-full items-end">
     <div class="col-span-1">
       <EditorLogo
         class="mb-2"

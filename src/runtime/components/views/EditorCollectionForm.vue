@@ -1,21 +1,22 @@
 <script setup lang="ts">
+// Components
 import EditorHeading from '../EditorHeading.vue';
 import EditorSection from '../EditorSection.vue';
 import EditorDeletionModal from '../EditorDeletionModal.vue';
 import { useEditor } from '../../composables/editor';
-//import * as yup from 'yup'
-import { string, date, number, array, boolean, object } from 'yup'
-import { prettifyColumnLabel, formatTimestamps } from '../../utilities';
-import type { EditableData } from '../../types'
-import { defineProps, computed, ref, watch, onMounted } from 'vue'
 
 // Fields
 import EditorRichTextField from '../fields/EditorRichTextField.vue';
 import EditorOptionsField from '../fields/EditorOptionsField.vue';
 
 // Utilities
-import { requestDataForSchemaFields } from '../../utilities/form'
+import { defineProps, computed, ref, watch, onMounted } from 'vue'
+import { requestDataForSchemaFields, componentsForFieldTypes } from '../../utilities/form'
+import { getYupValidationSchema } from '../../utilities/validators'
+import { prettifyColumnLabel, formatTimestamps } from '../../utilities';
 
+// Types
+import { EditableChangeEventType, type EditableData } from '../../types'
 
 const props = defineProps<{
   data: EditableData;
@@ -26,138 +27,36 @@ const emit = defineEmits<{
   requestData: [payload: any];
 }>()
 
-const componentsForFieldTypes = {
-  text: { label: 'Text', component: 'UInput', props: { type: 'text' }, defaultValue: '' },
-    'multiline-text': { label: 'Multi-line Text', component: 'UTextarea', props: { rows: 5 }, defaultValue: '' },
-    email: { label: 'Email address', component: 'UInput', props: { type: 'email' }, defaultValue: '' },
-    file: { label: 'File', component: 'UInput', props: { type: 'file' }, defaultValue: '' },
-    image: { label: 'Image', component: 'UInput', props: { type: 'file' }, defaultValue: '' },
-    url: { label: 'URL', component: 'UInput', props: { type: 'url' }, defaultValue: '' },
-    phone: { label: 'Phone number', component: 'UInput', props: { type: 'phone' }, defaultValue: '' },
-    number: { label: 'Number', component: 'UInput', props: { type: 'number' }, defaultValue: 0 },
-    date: { label: 'Date', component: 'UInput', props: { type: 'date' }, defaultValue: null },
-    datetime: { label: 'Date and time', component: 'UInput', props: { type: 'datetime' }, defaultValue: null },
-    options: { label: 'Options', component: 'EditorOptionsField', props: { }, defaultValue: [] },
-  switch: { label: 'Switch', component: 'UToggle', props: { type: 'text' }, defaultValue: false },
-    'rich-text': { label: 'Rich text', component: 'EditorRichTextField', props: { rows: 10 }, defaultValue: '' },
-}
-
-const defaultValidatorsForFieldTypes = {
-  text: string(),
-  'multiline-text': string(),
-  email: string().email(),
-  file: string(),
-  image: string(),
-  url: string().url(),
-  phone: string().matches(/^[0-9]+$/, 'This field must be a valid phone number.'),
-  number: number(),
-  date: date(),
-  datetime: date(),
-  options: array(),
-  switch: boolean(),
-  'rich-text': string(),
-}
-
 const { collections, view, log } = useEditor()
+
+const currentCollectionKey = computed(() => view.current.value.collection)
+const currentCollectionPrimaryKeyField = computed(() => collections[currentCollectionKey.value].primaryKey || 'id')
 const currentCollection = computed(() => {
-    return collections[view.current.value.collection]
+    return collections[currentCollectionKey.value]
 })
+
+// Form state
 const isNewPost = computed(() => view.current.value.item === 'new')
 const itemData = computed(() => {
-  const itemsForCurrentCollection = props.data[view.current.value.collection]
-  return itemsForCurrentCollection?.find(item => item._id === view.current.value.item) || {}
+  const itemsForCurrentCollection = props.data[currentCollectionKey.value]
+  return itemsForCurrentCollection?.find(item => item[currentCollectionPrimaryKeyField.value] == view.current.value.item) || {}
 })
+const updatedAt = computed(() => formatTimestamps(itemData.value.updated_at))
+const createdAt = computed(() => formatTimestamps(itemData.value.created_at))
 
-const setFormState = () => {
+const initialiseFormState = () => {
   return Object.entries(currentCollection.value.schema).reduce((acc, [key, value]) => {
     acc[key] = itemData.value[key] || value.default || componentsForFieldTypes[value.type].defaultValue
     return acc
 }, {})
 }
 
-const state = ref(setFormState())
+const state = ref(initialiseFormState())
+const schema = getYupValidationSchema(currentCollection.value.schema)
 
 watch(itemData, () => {
-  state.value = setFormState()
+  state.value = initialiseFormState()
 })
-
-/**
- * Get the Yup schema for the current collection
- * Applies the validators from defaultValidatorsForFieldTypes to create a Yup schema with default validators
- * Additionally, applies custom validators from the configuration, as defined in the validators property
- */
-function applyValidators(validator, validators) {
-  Object.keys(validators).forEach(key => {
-    const value = validators[key];
-
-    switch (key) {
-      case 'required':
-        if (value) validator = validator.required();
-        break;
-      case 'length':
-        validator = validator.length(value);
-        break;
-      case 'lessThan':
-        validator = validator.lessThan(value);
-        break;
-      case 'moreThan':
-        validator = validator.moreThan(value);
-        break;
-      case 'positive':
-        if (value) validator = validator.positive();
-        break;
-      case 'negative':
-        if (value) validator = validator.negative();
-        break;
-      case 'min':
-        validator = validator.min(value);
-        break;
-      case 'max':
-        validator = validator.max(value);
-        break;
-      case 'matches':
-        validator = validator.matches(value);
-        break;
-      case 'email':
-        if (value) validator = string().email();
-        break;
-      case 'url':
-        if (value) validator = string().url();
-        break;
-      case 'phone':
-        if (value) validator = string().matches(/^[0-9]+$/);
-        break;
-      case 'datetime':
-        if (value) validator = date();
-        break;
-      case 'date':
-        if (value) validator = date();
-        break;
-      case 'lowercase':
-        if (value) validator = validator.lowercase();
-        break;
-      case 'uppercase':
-        if (value) validator = validator.uppercase();
-        break;
-    }
-  });
-
-  return validator;
-}
-
-function getYupValidationSchema(schema) {
-  const yupSchemaFields = {};
-
-  Object.keys(schema).forEach(key => {
-    const { type, ...validators } = schema[key];
-    const baseValidator = defaultValidatorsForFieldTypes[type] || string(); // Fallback to string validator
-    yupSchemaFields[key] = applyValidators(baseValidator, validators);
-  });
-
-  return object(yupSchemaFields)
-}
-
-const schema = getYupValidationSchema(currentCollection.value.schema)
 
 // Request data for option fields
 requestDataForSchemaFields(currentCollection.value.schema, emit)
@@ -175,36 +74,33 @@ const formComponents = Object.entries(currentCollection.value.schema).reduce((ac
                 ...component.props
             }
         }
+    } else {
+      log({ severity: 'error', message: `No component found for field type ${value.type}` })
     }
     return acc
 }, {})
 
-// Submission
+// Form methods
 async function onSubmit(event: any) {
-  if (isNewPost.value) {
-    emit('change', { type: 'create', payload: { collection: view.current.value.collection, data: event.data } })
-  } else {
-    emit('change', { type: 'update', payload: { collection: view.current.value.collection, data: { ...itemData.value, ...event.data } } })
-  }
-  log({ severity: 'info', message: `Submitting data for ${view.current.value.collection}, ${event.data}` })
-  view.go({ view: 'collections', collection: view.current.value.collection })
+  const submitType = isNewPost.value ? EditableChangeEventType.Create : EditableChangeEventType.Update
+  emit('change', { type: submitType, payload: { collection: currentCollectionKey.value, data: { ...itemData.value, ...event.data } } })
+
+  log({ severity: 'info', message: `Submitting data for ${currentCollectionKey.value}, ${event.data}` })
+  view.go({ view: 'collections', collection: currentCollectionKey.value })
 }
 
 async function onDelete() {
-  emit('change', { type: 'delete', payload: { collection: view.current.value.collection, data: itemData.value } })
-  log({ severity: 'info', message: `Deleting data for ${view.current.value.collection}, ${itemData.value}` })
-  view.go({ view: 'collections', collection: view.current.value.collection })
+  emit('change', { type: 'delete', payload: { collection: currentCollectionKey.value, data: itemData.value } })
+  log({ severity: 'info', message: `Deleting data for ${currentCollectionKey.value}, ${itemData.value}` })
+  view.go({ view: 'collections', collection: currentCollectionKey.value })
 }
 
 const showDeletionModal = ref(false)
 
-const updatedAt = computed(() => formatTimestamps(itemData.value.updated_at))
-const createdAt = computed(() => formatTimestamps(itemData.value.created_at))
-
 onMounted(() => {
   if (!isNewPost.value) {
-    emit('requestData', { collection: view.current.value.collection })
-    log({ severity: 'info', message: `Requesting data for ${view.current.value.collection}` })
+    emit('requestData', { collection: currentCollectionKey.value, item: view.current.value.item })
+    log({ severity: 'info', message: `Requesting data for ${currentCollectionKey.value}, item: ${view.current.value.item}` })
   }
 })
 </script>
@@ -216,7 +112,7 @@ onMounted(() => {
       :state="state"
       @submit="onSubmit"
     >
-      <div class="grid grid-cols-2 items-center mb-8">
+      <div class="grid grid-cols-2 items-center mb-4 sm:mb-8">
         <EditorHeading
           tag="h1"
           class="capitalize"
@@ -288,8 +184,8 @@ onMounted(() => {
           #footer
         >
           <ul class="text-xs text-gray-500 leading-relaxed">
-            <li v-if="itemData._id || itemData.id">
-              Item ID: {{ itemData._id }}
+            <li v-if="itemData[currentCollectionPrimaryKeyField]">
+              Item ID: {{ itemData[currentCollectionPrimaryKeyField] }}
             </li>
             <li v-if="itemData.created_at">
               Created at: {{ createdAt }}

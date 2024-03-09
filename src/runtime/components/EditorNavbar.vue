@@ -50,7 +50,7 @@ defineProps<{
           :alt="user.name"
           size="xs"
         />
-        {{ user.name }}
+        <span class="hidden sm:block">{{ user.name }}</span>
         <UIcon name="i-heroicons-chevron-down" />
       </button>
     </UDropdown>

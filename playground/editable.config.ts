@@ -2,33 +2,6 @@ import { EditableCollectionSchemaFieldType, type EditableConfig } from "../src/r
 
 const config: EditableConfig = {
   collections: {
-    posts: {
-      name: {
-        singular: 'Post',
-        plural: 'Posts'
-      },
-      icon: 'i-heroicons-newspaper',
-      schema: {
-        title: {
-          type: EditableCollectionSchemaFieldType.Text,
-          help: 'A title for the post',
-          required: true
-        },
-        slug: {
-          type: EditableCollectionSchemaFieldType.Text,
-          help: 'A URL-friendly slug for the post page',
-          required: true
-        },
-        excerpt: {
-          type: EditableCollectionSchemaFieldType.Text,
-          help: 'A short excerpt of the post'
-        },
-        content: {
-          type: EditableCollectionSchemaFieldType.RichText,
-          help: 'The content of the post'
-        }
-      }
-    },
     products: {
       name: {
         singular: 'Product',
@@ -54,21 +27,10 @@ const config: EditableConfig = {
           help: 'The price of the product',
           required: true
         },
-        image: {
-          type: EditableCollectionSchemaFieldType.Image,
-          help: 'An image of the product'
-        },
         stock: {
           type: EditableCollectionSchemaFieldType.Number,
           help: 'The stock of the product',
           required: true
-        },
-        category: {
-          type: EditableCollectionSchemaFieldType.Options,
-          help: 'The category of the product',
-          options: {
-            source: 'categories'
-          }
         },
         rating: {
           type: EditableCollectionSchemaFieldType.Number,

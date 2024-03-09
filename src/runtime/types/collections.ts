@@ -70,6 +70,7 @@ export type EditableCollectionSchemaFieldOptionsSource = {
 export interface BaseEditableCollectionSchemaField {
     type: EditableCollectionSchemaFieldType;
     help?: EditableCollectionSchemaFieldHelp;
+    multiple?: boolean;
     options?: EditableCollectionSchemaFieldOptionsSource | EditableCollectionSchemaFieldOption[];
 }
 
@@ -87,6 +88,13 @@ export interface EditableCollectionSchema {
 
 
 export interface EditableCollection {
+
+    /**
+     * The field used as primary key for the collection.
+     * @example 'id', '_id', 'uuid'
+     * @default: 'id'
+     */
+    primaryKey: string;
     /**
      * Define the name of the collection.
      * @example { singular: 'Post', plural: 'Posts'}

@@ -1,4 +1,4 @@
-import { defineNuxtModule, addPlugin, createResolver, addImportsDir, installModule, addComponent } from '@nuxt/kit'
+import { defineNuxtModule, addPlugin, createResolver, addImportsDir, installModule, addComponent, addTypeTemplate, addServerHandler, addServerPlugin } from '@nuxt/kit'
 
 export default defineNuxtModule({
   meta: {
@@ -26,6 +26,7 @@ export default defineNuxtModule({
       collections: config.collections || {}
     }
     
+    
     // Add Editor plugin, components and composables
     addPlugin(resolver.resolve('./runtime/plugin'))
     addImportsDir(resolver.resolve('./runtime/composables'))
@@ -33,7 +34,7 @@ export default defineNuxtModule({
       name: 'NuxtEditableEditor',
       filePath: resolver.resolve('./runtime/components/Editor.vue'),
     })
-    
+
     nuxt.hook('tailwindcss:config', function (tailwindConfig) {
       tailwindConfig.content = tailwindConfig.content ?? { files: [] };
       (Array.isArray(tailwindConfig.content) ? tailwindConfig.content : tailwindConfig.content.files).push(resolver.resolve('./runtime/components/**/*.{vue,mjs,ts}'))
@@ -48,5 +49,10 @@ export default defineNuxtModule({
     })
     
     await installModule('@nuxt/ui')
+
+    // TODO: See if that could work for the esm build issue.
+    //nuxt.options.build.transpile.push('@popperjs/core', '@headlessui/vue')
+
+
   }
 })
