@@ -2,10 +2,13 @@
 
 # Nuxt Editable
 
+
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
+
+**⚠️ Nuxt Editable is currently in alpha. Use with caution.**
 
 Nuxt Editable is a free content editor UI to embed in your Nuxt site. It gives you a great editing experience by allowing you to click to edit content in-place.
 
@@ -36,20 +39,26 @@ Here's a step-by-step setup:
 
 ```bash
 # Using pnpm
-pnpm add -D nuxt-editable
+pnpm add nuxt-editable typescript tailwindcss
 
 # Using yarn
-yarn add --dev nuxt-editable
+yarn add nuxt-editable typescript tailwindcss
 
 # Using npm
-npm install --save-dev nuxt-editable
+npm install nuxt-editable typescript tailwindcss
 ```
+### 2. Create configuration file and add module
+Create a file called editable.config.ts in the root of your project. This will contain your editor configuration:
 
-Now, add `nuxt-editable` to the `modules` section of `nuxt.config.ts`
+Now, add `nuxt-editable` to the `modules` section of `nuxt.config.ts`, with a reference to your config file as second argument.
 
 ```js
+import editableConfig from './editable.config'
+
 export default defineNuxtConfig({
-  modules: ['nuxt-editable'],
+  modules: [
+    ['nuxt-editable', editableConfig]
+  ],
 });
 ```
 
@@ -57,33 +66,39 @@ export default defineNuxtConfig({
 Nuxt Editable requires a scheme to know what you data looks like. It uses this to render the tables and form fields. Here's an example for `Posts` collection:
 
 ```js
-posts: {
-      name: {
-        singular: 'Post',
-        plural: 'Posts'
-      },
-      icon: 'i-heroicons-newspaper',
-      schema: {
-        title: {
-          type: EditableCollectionSchemaFieldType.Text,
-          help: 'A title for the post',
-          required: true
-        },
-        slug: {
-          type: EditableCollectionSchemaFieldType.Text,
-          help: 'A URL-friendly slug for the post page',
-          required: true
-        },
-        excerpt: {
-          type: EditableCollectionSchemaFieldType.Text,
-          help: 'A short excerpt of the post'
-        },
-        content: {
-          type: EditableCollectionSchemaFieldType.RichText,
-          help: 'The content of the post'
-        }
+// editable.config.ts
+
+export default {
+  collections: {
+    posts: {
+          name: {
+            singular: 'Post',
+            plural: 'Posts'
+          },
+          icon: 'i-heroicons-newspaper',
+          schema: {
+            title: {
+              type: EditableCollectionSchemaFieldType.Text,
+              help: 'A title for the post',
+              required: true
+            },
+            slug: {
+              type: EditableCollectionSchemaFieldType.Text,
+              help: 'A URL-friendly slug for the post page',
+              required: true
+            },
+            excerpt: {
+              type: EditableCollectionSchemaFieldType.Text,
+              help: 'A short excerpt of the post'
+            },
+            content: {
+              type: EditableCollectionSchemaFieldType.RichText,
+              help: 'The content of the post'
+            }
+          }
       }
   }
+}
 ```
 
 ### 4. Add the editor to your app
