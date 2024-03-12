@@ -17,11 +17,14 @@ const isNotLoggedInView = computed(() => {
       'h-[calc(100vh-25vh)]': !isNotLoggedInView
     }"
   >
-  <NuxtErrorBoundary>
-          <template #error="{ error , clearError }">
-          <EditorError :error="error" :clear-error="clearError" />
-        </template>
-    <slot />
+    <NuxtErrorBoundary>
+      <template #error="{ error , clearError }">
+        <EditorError
+          :error="error"
+          :clear-error="clearError"
+        />
+      </template>
+      <slot />
     </NuxtErrorBoundary>
   </div>
 </template>

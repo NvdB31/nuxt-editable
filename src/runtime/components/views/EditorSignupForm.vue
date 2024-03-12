@@ -1,4 +1,4 @@
-<<script setup lang="ts">
+<script setup lang="ts">
 import AccountForm from '../AccountForm.vue';
 import EditorSection from '../EditorSection.vue';
 

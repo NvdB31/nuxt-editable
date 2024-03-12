@@ -5,6 +5,10 @@ import type { EditableUser } from '../types'
 import { computed, defineProps } from 'vue'
 const { view, collections } = useEditor();
 
+const emit = defineEmits<{
+  logout: []
+}>()
+
 const collectionNavItems = computed(() => {
   return Object.entries(collections).map(([collectionKey, collection]) => {
     return {
@@ -20,7 +24,7 @@ const items = [
   [{
     label: 'Sign out',
     icon: 'i-heroicons-arrow-right-end-on-rectangle',
-    click: () => view.go({ view: 'login' })
+    click: () => emit('logout')
   }]
 ]
 

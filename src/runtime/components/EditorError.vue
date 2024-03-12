@@ -14,12 +14,22 @@ const onClear = async () => {
 </script>
 
 <template>
-    <div class="w-full h-full flex items-center justify-center text-center flex-col gap-4">
-            <UIcon name="i-heroicons-exclamation-circle" class="w-12 h-12" />
-            <EditorHeading tag="h1">Something went wrong</EditorHeading>
-            <code class="text-gray-500 dark:text-gray-300 p-1 px-2 bg-gray-100 dark:bg-gray-950 text-sm">
-              {{ error }}
-            </code>
-            <UButton @click="onClear" color="black">Go Back</UButton>
-          </div>
+  <div class="w-full h-full flex items-center justify-center text-center flex-col gap-4">
+    <UIcon
+      name="i-heroicons-exclamation-circle"
+      class="w-12 h-12"
+    />
+    <EditorHeading tag="h1">
+      Something went wrong
+    </EditorHeading>
+    <code class="text-gray-500 dark:text-gray-300 p-1 px-2 bg-gray-100 dark:bg-gray-950 text-sm">
+      {{ error }}
+    </code>
+    <UButton
+      color="black"
+      @click="onClear"
+    >
+      Go Back
+    </UButton>
+  </div>
 </template>

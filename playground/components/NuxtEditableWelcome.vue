@@ -51,10 +51,15 @@ const { data: products } = useFetch('/api/products', {
               class="py-4 flex justify-center gap-4 flex-col items-center text-center"
             >
               <div class="bg-gray-100 w-32 h-32 flex items-center justify-center text-gray-300">
-                <UIcon name="i-heroicons-shopping-bag" class="text-5xl" />
+                <UIcon
+                  name="i-heroicons-shopping-bag"
+                  class="text-5xl"
+                />
               </div>
               <div class="leading-relaxed">
-                <div class="text-gray-500 text-sm">{{ product.brand }}</div>
+                <div class="text-gray-500 text-sm">
+                  {{ product.brand }}
+                </div>
                 <h3 class="font-bold">
                   {{ product.title }}
                 </h3>

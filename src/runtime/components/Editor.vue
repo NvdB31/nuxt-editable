@@ -10,12 +10,12 @@ import EditorSignupForm from './views/EditorSignupForm.vue';
 import EditorLoginForm from './views/EditorLoginForm.vue';
 import EditorHighlighter from './EditorHighlighter.vue';
 
-import { defineProps, computed, watch } from 'vue'
-import { defineShortcuts } from '#imports';
+import { defineProps, computed, watch, type Ref } from 'vue'
+import { defineShortcuts, useState } from '#imports';
 
-import type { EditableEditorEvents, EditableEditorProps, EditableView } from '../types'
+import type { EditableEditorEvents, EditableEditorProps, EditableLoginEvent, EditableSignupEvent, EditableView, EditableUser } from '../types'
 
-defineProps<EditableEditorProps>()
+const props = defineProps<EditableEditorProps>()
 const emit = defineEmits<EditableEditorEvents>()
 
 const { collections: editorCollections, view, toggle, isCollapsed, isEnabled, toast } = useEditor()
@@ -45,6 +45,27 @@ watch(isCollapsed, (collapsed: boolean) => {
 watch(view.current, (view: EditableView) => {
   emit('viewChange', view)
 })
+
+const userState = useState('EditableEditorUser', () => null)
+watch(() => props.user, (user: EditableUser) => {
+  userState.value = user
+})
+
+// Methods
+const onEditorLogout = () => {
+  emit('logout')
+  view.go({ view: 'login' })
+}
+
+const onEditorSignup = (payload: EditableSignupEvent) => {
+  emit('signup', payload)
+  view.go({ view: 'collections' })
+}
+
+const onEditorLogin = (payload: EditableLoginEvent) => {
+  emit('login', payload)
+  view.go({ view: 'collections' })
+}
 
 </script>
 
@@ -77,8 +98,9 @@ watch(view.current, (view: EditableView) => {
 
     <EditorBody>
       <EditorNavbar
-      v-if="!isAuthView && user"
-      :user="user"
+        v-if="!isAuthView && user"
+        :user="user"
+        @logout="onEditorLogout"
       />
       <EditorView :class="{'!h-0': isCollapsed }">
         <UContainer>
@@ -99,10 +121,12 @@ watch(view.current, (view: EditableView) => {
           <EditorSignupForm
             v-else-if="view.current.value.view === 'signup'"
             :pending="pending"
+            @signup="onEditorSignup"
           />
           <EditorLoginForm
             v-else-if="view.current.value.view === 'login'"
             :pending="pending"
+            @login="onEditorLogin"
           />
           <EditorCollections v-else />
         </UContainer>

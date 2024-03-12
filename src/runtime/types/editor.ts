@@ -27,6 +27,16 @@ export type EditableView = {
 
 export type EditableViewChangeEvent = EditableView
 
+export type EditableLoginEvent = {
+  email: string
+  password: string
+}
+
+export type EditableSignupEvent = {
+  email: string
+  password: string
+}
+
 export type EditableRequestDataEvent = {
   collection: EditableCollectionKey
   search?: string
@@ -57,13 +67,27 @@ export type EditableEditorEvents = {
    * An event that is fired when the editor is collapsed
    */
   collapse: [value: boolean]
+
+  /**
+   * An event that is fired when the editor is logged into
+   */
+  login: [payload: EditableLoginEvent]
+
+  /**
+   * An event that is fired when the editor is logged out
+   */
+  logout: []
+
+  /**
+   * An event that is fired when the editor is signed up
+   */
+  signup: [payload: EditableSignupEvent]
 }
 
 /**
  * A map with the current data the editor has access to, with the key being your collection, and items as values conforming to the scheme of that collection
  * @example { 
  *    posts: [{ id: '123', title: 'Hello World' }, ...],
- *    users: [{ id: '123', name: 'John Doe' }, ...]
  * }
  */
 export type EditableData = {

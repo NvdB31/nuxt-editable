@@ -110,8 +110,8 @@ onMounted(() => {
           size="lg"
           color="gray"
           :trailing="false"
-          @input="onSearch"
           :placeholder="`Search ${currentCollection.name.plural.toLowerCase()}`"
+          @input="onSearch"
         />
         <UButton
           v-if="selected.length"
@@ -152,7 +152,7 @@ onMounted(() => {
     </UTable>
   </EditorSection>
   <EditorDeletionModal
-      v-model="showDeletionModal"
-      @delete="onDeleteItems"
-    />
+    v-model="showDeletionModal"
+    @delete="onDeleteItems"
+  />
 </template>
