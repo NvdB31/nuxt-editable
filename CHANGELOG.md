@@ -1,4 +1,16 @@
 
+## v0.0.14
+
+[compare changes](https://github.com/NvdB31/nuxt-editable/compare/v0.0.13...v0.0.14)
+
+### 🩹 Fixes
+
+- **deps:** Imports ([2a55912](https://github.com/NvdB31/nuxt-editable/commit/2a55912))
+
+### ❤️ Contributors
+
+- Nick Van Den Berg ([@NvdB31](http://github.com/NvdB31))
+
 ## v0.0.13
 
 [compare changes](https://github.com/NvdB31/nuxt-editable/compare/v0.0.12...v0.0.13)
