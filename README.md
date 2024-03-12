@@ -5,7 +5,6 @@
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
-[![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
 **⚠️ Nuxt Editable is currently in alpha. Use with caution.**
@@ -13,7 +12,8 @@
 Nuxt Editable is a free content editor UI to embed in your Nuxt site. It gives you a great editing experience by allowing you to click to edit content in-place.
 
 - [✨ &nbsp;Release Notes](/CHANGELOG.md)
-  <!-- - [🏀 Online playground](https://stackblitz.com/github/nvdb31/nuxt-editable?file=playground%2Fapp.vue) -->
+- [🕹️ Online demo](https://nuxt-editable-playground.vercel.app/)
+- [🏀 Stackblitz](https://stackblitz.com/github/nvdb31/nuxt-editable?file=playground%2Fapp.vue)
   <!-- - [📖 &nbsp;Documentation](https://example.com) -->
 
 ## Features
