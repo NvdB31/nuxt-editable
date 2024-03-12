@@ -1,4 +1,4 @@
-import { defineNuxtPlugin } from '#app'
+import { defineNuxtPlugin, useState } from '#app'
 import { useEditor } from './composables/editor'
 
 export default defineNuxtPlugin((nuxtApp) => {

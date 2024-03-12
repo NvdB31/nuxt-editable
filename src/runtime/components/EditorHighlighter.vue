@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useState } from '#imports'
 import { useEditor } from '../composables/editor'
+import { computed } from 'vue'
 
 const { collections } = useEditor()
 
