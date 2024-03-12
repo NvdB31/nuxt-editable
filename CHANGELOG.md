@@ -1,4 +1,16 @@
 
+## v0.0.13
+
+[compare changes](https://github.com/NvdB31/nuxt-editable/compare/v0.0.12...v0.0.13)
+
+### 🏡 Chore
+
+- Deps ([07492f9](https://github.com/NvdB31/nuxt-editable/commit/07492f9))
+
+### ❤️ Contributors
+
+- Nick Van Den Berg ([@NvdB31](http://github.com/NvdB31))
+
 ## v0.0.12
 
 [compare changes](https://github.com/NvdB31/nuxt-editable/compare/v0.0.5...v0.0.12)
