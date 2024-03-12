@@ -165,8 +165,8 @@ const onEditorChangeData = async (event: EditableChangeEvent) => {
 ### 8. Add a user to the editor
 You'll typically want to allow users to log in to the editor. You can provide the currently logged in user through the `user` prop. On the built-version of your Nuxt app, the Editor will default to a login screen if the `user` has not been provided. The editor emits a `login` and `logout` event for you to handle accordingly.
 
-## Enabling live previews
-Allowing users to click and navigate to the editable item directly provides for a great editor UX. To enable this, you need to provide the editor a hint to which `collection` and unique `ID` your item refers to. To make this easy, the module exposes a `v-editable` directive to your Nuxt app. Example:
+## Enabling the Highlighter
+Allowing users to highlight and click to navigate to the editor item directly makes for a great UX. To enable this, you need to provide the editor a hint to which `collection` and unique `ID` your item refers to. To make this easy, the module exposes a `v-editable` directive to your Nuxt app. Example:
 
 ```html
 <h1 v-editable="{ collection: 'posts', id: '23984832' }">Some great post title</h1>
@@ -182,6 +182,13 @@ Your scheme can contain validators such as `required`, `minLength`, `date`. For 
 ## Roadmap
 Nuxt Editable is in its early stages, so there's still a few things that are on my list to build in order to make this ready for production.
 
+### To do's
+- [ ] Add test coverage
+- [ ] Add pagination in the collection list UI
+- [ ] Add provider login UI configuration options for Github, Google, social media and the likes
+- [ ] Support file uploads with a UI configuration option to view a collection as a grid of files.
+
+### Future
 Beyond this, there's a lot more this project could become:
 - State: Keeping edits and new items in the local state so users can freely navigate around and leave the editor, without losing changes.
 - Publish: Instead of creating and update items directly, configure the editor to keep local changes changes in a batch, and allow the users to hit 'Publish', to commit all changes (e.g. as part of a database transaction).
