@@ -1,6 +1,14 @@
 import { EditableCollectionSchemaFieldType, type EditableConfig } from "../src/runtime/types";
 
 const config: EditableConfig = {
+  ui: {
+    collections: {
+      products: {
+        search: false
+      }
+    }
+  },
+
   collections: {
     products: {
       name: {

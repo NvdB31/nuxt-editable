@@ -47,6 +47,9 @@ dependencies:
   '@vueuse/core':
     specifier: ^10.9.0
     version: 10.9.0(vue@3.4.21)
+  defu:
+    specifier: ^6.1.4
+    version: 6.1.4
   nuxt-icon:
     specifier: ^0.6.8
     version: 0.6.9(nuxt@3.10.3)(rollup@3.29.4)(vite@5.1.5)(vue@3.4.21)

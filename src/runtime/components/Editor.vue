@@ -67,67 +67,45 @@ const onEditorLogin = (payload: EditableLoginEvent) => {
   view.go({ view: 'collections' })
 }
 
+const formActionsSlotName = computed(() => `${view.current.value.collection}-form-actions`)
+const listActionsSlotName = computed(() => `${view.current.value.collection}-list-actions`)
+
 </script>
 
 <template>
-  <div
-    v-if="isEnabled"
-    class="overflow-hidden sm:px-4 fixed w-screen flex flex-col justify-end transition-colors"
+  <div v-if="isEnabled" class="overflow-hidden sm:px-4 fixed w-screen flex flex-col justify-end transition-colors"
     :class="{'h-26 pt-0 bottom-0': isCollapsed, 'bg-black/10 dark:bg-black/5 h-screen inset-0': !isCollapsed}"
-    v-bind="$attrs"
-  >
-    <UButton
-      color="white"
-      class="mx-auto mb-4"
+    v-bind="$attrs">
+    <UButton color="white" class="mx-auto mb-4"
       :icon="isCollapsed ? 'i-heroicons-arrow-up-solid' : 'i-heroicons-arrow-down-solid'"
-      :ui="{ rounded: 'rounded-full' }"
-      @click="toggle"
-    >
-      {{ !isCollapsed ? 'Hide Editor' : 'Show Editor' }} 
+      :ui="{ rounded: 'rounded-full' }" @click="toggle">
+      {{ !isCollapsed ? 'Hide Editor' : 'Show Editor' }}
     </UButton>
 
     <UContainer class="w-full">
-      <UNotification
-        v-for="msg in toast.messages.value"
-        :key="msg.id"
-        :ui="{ rounded: 'rounded-none rounded-t-lg' }"
-        v-bind="msg"
-        :callback="() => toast.remove(msg.id)"
-      />
+      <UNotification v-for="msg in toast.messages.value" :key="msg.id" :ui="{ rounded: 'rounded-none rounded-t-lg' }"
+        v-bind="msg" :callback="() => toast.remove(msg.id)" />
     </UContainer>
 
     <EditorBody>
-      <EditorNavbar
-        v-if="!isAuthView && user"
-        :user="user"
-        @logout="onEditorLogout"
-      />
+      <EditorNavbar v-if="!isAuthView && user" :user="user" @logout="onEditorLogout" />
       <EditorView :class="{'!h-0': isCollapsed }">
         <UContainer>
-          <EditorCollectionList
-            v-if="isCollectionDetailView"
-            :data="data"
-            :pending="pending"
-            @change="payload => emit('change', payload)"
-            @request-data="payload => emit('requestData', payload)"
-          />
-          <EditorCollectionForm
-            v-else-if="view.current.value.item"
-            :data="data"
-            :pending="pending"
-            @change="payload => emit('change', payload)"
-            @request-data="payload => emit('requestData', payload)"
-          />
-          <EditorSignupForm
-            v-else-if="view.current.value.view === 'signup'"
-            :pending="pending"
-            @signup="onEditorSignup"
-          />
-          <EditorLoginForm
-            v-else-if="view.current.value.view === 'login'"
-            :pending="pending"
-            @login="onEditorLogin"
-          />
+          <EditorCollectionList v-if="isCollectionDetailView" :data="data" :pending="pending"
+            @change="payload => emit('change', payload)" @request-data="payload => emit('requestData', payload)">
+            <template #[listActionsSlotName]>
+              <slot :name="`${view.current.value.collection}-list-actions`" />
+            </template>
+          </EditorCollectionList>
+          <EditorCollectionForm v-else-if="view.current.value.item" :data="data" :pending="pending"
+            @change="payload => emit('change', payload)" @request-data="payload => emit('requestData', payload)">
+            <template #[formActionsSlotName]>
+              <slot :name="`${view.current.value.collection}-form-actions`" />
+            </template>
+          </EditorCollectionForm>
+          <EditorSignupForm v-else-if="view.current.value.view === 'signup'" :pending="pending"
+            @signup="onEditorSignup" />
+          <EditorLoginForm v-else-if="view.current.value.view === 'login'" :pending="pending" @login="onEditorLogin" />
           <EditorCollections v-else />
         </UContainer>
       </EditorView>

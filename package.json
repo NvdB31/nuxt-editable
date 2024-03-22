@@ -43,6 +43,7 @@
     "@tiptap/starter-kit": "^2.2.4",
     "@tiptap/vue-3": "^2.2.4",
     "@vueuse/core": "^10.9.0",
+    "defu": "^6.1.4",
     "nuxt-icon": "^0.6.8",
     "yup": "^1.4.0"
   },

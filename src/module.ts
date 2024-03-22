@@ -1,4 +1,8 @@
-import { defineNuxtModule, addPlugin, createResolver, addImportsDir, installModule, addComponent, addTypeTemplate, addServerHandler, addServerPlugin } from '@nuxt/kit'
+import { defineNuxtModule, addPlugin, createResolver, addImportsDir, installModule, addComponent } from '@nuxt/kit'
+import { uiDefaults } from './runtime/types'
+import defu from 'defu'
+
+export * from './runtime/types'
 
 export default defineNuxtModule({
   meta: {
@@ -20,7 +24,7 @@ export default defineNuxtModule({
 
     // Add the options to the public runtime config
     nuxt.options.runtimeConfig.public.editable = {
-      ui: config.ui || {},
+      ui: defu(uiDefaults, config.ui),
       log: config.log,
       // @todo: Add a secure way of exposing the collections
       collections: config.collections || {}

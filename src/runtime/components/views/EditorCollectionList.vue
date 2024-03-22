@@ -16,7 +16,7 @@ import { computed, defineProps, ref, onMounted, watch } from 'vue';
 import { EditableChangeEventType, type EditableChangeEvent, type EditableCollection, type EditableData, type EditableRequestDataEvent } from '../../types'
 import type { Ref } from 'vue'
 
-const { collections, view, log } = useEditor()
+const { collections, view, log, ui } = useEditor()
 const currentCollection: Ref<EditableCollection> = computed(() => {
   return collections[view.current.value.collection]
 })
@@ -98,61 +98,36 @@ onMounted(() => {
 <template>
   <EditorSection>
     <div class="grid grid-cols-2 items-end mb-4 sm:mb-8">
-      <EditorHeading
-        tag="h1"
-        class="capitalize"
-      >
+      <EditorHeading tag="h1" class="capitalize">
         {{ currentCollection.name.plural }}
       </EditorHeading>
       <div class="flex justify-end gap-4">
-        <UInput
-          icon="i-heroicons-magnifying-glass-20-solid"
-          size="lg"
-          color="gray"
-          :trailing="false"
-          :placeholder="`Search ${currentCollection.name.plural.toLowerCase()}`"
-          @input="onSearch"
-        />
-        <UButton
-          v-if="selected.length"
-          size="lg"
-          color="gray"
-          icon="i-heroicons-trash"
-          @click="showDeletionModal = true"
-        >
+        <UInput icon="i-heroicons-magnifying-glass-20-solid" size="lg" color="gray" :trailing="false"
+          :placeholder="`Search ${currentCollection.name.plural.toLowerCase()}`" @input="onSearch"
+          v-if="ui.collections[view.current.value.collection].search" />
+        <slot :name="`${view.current.value.collection}-list-actions`" />
+        <UButton v-if="selected.length && ui.collections[view.current.value.collection].delete" size="lg" color="gray"
+          icon="i-heroicons-trash" @click="showDeletionModal = true">
           Delete
         </UButton>
-        <UButton
-          size="lg"
-          icon="i-heroicons-plus"
+        <UButton size="lg" icon="i-heroicons-plus"
           @click="view.go({view: 'collections', collection: view.current.value.collection, item: 'new'})"
-        >
+          v-if="ui.collections[view.current.value.collection].create">
           New {{ currentCollection.name.singular }}
         </UButton>
       </div>
     </div>
-    <div
-      v-if="currentCollection.description"
-      class="text-sm text-gray-500 dark:text-gray-300 mb-4"
-    >
+    <div v-if="currentCollection.description" class="text-sm text-gray-500 dark:text-gray-300 mb-4">
       {{ currentCollection.description }}
     </div>
-    <UTable
-      v-model="selected"
-      :rows="rows"
-      :columns="columns"
-      :loading="pending"
+    <UTable v-model="selected" :rows="rows" :columns="columns" :loading="pending"
       class="border dark:border-gray-800 rounded-lg bg-white dark:bg-gray-950"
       :empty-state="{ icon: currentCollection.icon, label: `No ${currentCollection.name.plural}.` }"
-      @select="row => view.go({ view: 'collections', collection: view.current.value.collection, item: row.id || row._id })"
-    >
+      @select="row => view.go({ view: 'collections', collection: view.current.value.collection, item: row.id || row._id })">
       <template #name-data="{ row }">
         <span class="capitalize">{{ row.name }}</span>
       </template>
     </UTable>
   </EditorSection>
-  <EditorDeletionModal
-    v-model="showDeletionModal"
-    @delete="onDeleteItems"
-  />
+  <EditorDeletionModal v-model="showDeletionModal" @delete="onDeleteItems" />
 </template>

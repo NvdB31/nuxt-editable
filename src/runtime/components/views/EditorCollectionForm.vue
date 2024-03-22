@@ -27,7 +27,7 @@ const emit = defineEmits<{
   requestData: [payload: any];
 }>()
 
-const { collections, view, log } = useEditor()
+const { collections, view, log, ui } = useEditor()
 
 const currentCollectionKey = computed(() => view.current.value.collection)
 const currentCollectionPrimaryKeyField = computed(() => collections[currentCollectionKey.value].primaryKey || 'id')
@@ -70,8 +70,9 @@ const formComponents = Object.entries(currentCollection.value.schema).reduce((ac
             schema: value,
             component: component.component,
             props: {
-                label: prettifyColumnLabel(key),
-                ...component.props
+              label: prettifyColumnLabel(key),
+                readonly: ui.collections[currentCollectionKey.value].create ? false : true,
+                ...component.props,       
             }
         }
     } else {
@@ -107,82 +108,35 @@ onMounted(() => {
 
 <template>
   <EditorSection>
-    <UForm
-      :schema="schema"
-      :state="state"
-      @submit="onSubmit"
-    >
+    <UForm :schema="schema" :state="state" @submit="onSubmit">
       <div class="grid grid-cols-2 items-center mb-4 sm:mb-8">
-        <EditorHeading
-          tag="h1"
-          class="capitalize"
-        >
+        <EditorHeading tag="h1" class="capitalize">
           {{ isNewPost ? 'New' : 'Edit' }} {{ currentCollection.name.singular }}
         </EditorHeading>
         <div class="flex justify-end gap-4">
-          <UButton
-            size="lg"
-            color="gray"
-            @click="view.go({ view: 'collections' })"
-          >
+          <slot :name="`${view.current.value.collection}-form-actions`" />
+          <UButton size="lg" color="gray" @click="view.go({ view: 'collections' })">
             Cancel
           </UButton>
-          <UButton
-            size="lg"
-            type="submit"
-          >
+          <UButton size="lg" type="submit" v-if="ui.collections[view.current.value.collection].create">
             Save {{ currentCollection.name.singular }}
           </UButton>
         </div>
       </div>
       <UCard>
         <div class="space-y-4">
-          <UFormGroup
-            v-for="(item, key) in formComponents"
-            :key="key"
-            :label="item.props.label"
-            :name="key"
-            :help="item.schema.help"
-            :hint="item.label"
-          >
-            <UInput
-              v-if="item.component === 'UInput'"
-              v-model="state[key]"
-              v-bind="item.props"
-              size="lg"
-            />
-            <UTextarea
-              v-if="item.component === 'UTextarea'"
-              v-model="state[key]"
-              v-bind="item.props"
-              size="lg"
-            />
-            <UToggle
-              v-else-if="item.component === 'UToggle'"
-              v-model="state[key]"
-              v-bind="item.props"
-              size="lg"
-            />
-            <EditorOptionsField
-              v-else-if="item.component === 'EditorOptionsField'"
-              v-model="state[key]"
-              :data="data"
-              :field="item.schema"
-              :component-props="item.props"
-              size="lg"
-            />
-            <EditorRichTextField
-              v-else-if="item.component === 'EditorRichTextField'"
-              v-model="state[key]"
-              :component-props="item.props"
-              size="lg"
-            />
+          <UFormGroup v-for="(item, key) in formComponents" :key="key" :label="item.props.label" :name="key"
+            :help="item.schema.help" :hint="item.label">
+            <UInput v-if="item.component === 'UInput'" v-model="state[key]" v-bind="item.props" size="lg" />
+            <UTextarea v-if="item.component === 'UTextarea'" v-model="state[key]" v-bind="item.props" size="lg" />
+            <UToggle v-else-if="item.component === 'UToggle'" v-model="state[key]" v-bind="item.props" size="lg" />
+            <EditorOptionsField v-else-if="item.component === 'EditorOptionsField'" v-model="state[key]" :data="data"
+              :field="item.schema" :component-props="item.props" size="lg" />
+            <EditorRichTextField v-else-if="item.component === 'EditorRichTextField'" v-model="state[key]"
+              :component-props="item.props" size="lg" />
           </UFormGroup>
         </div>
-        <template
-          v-if="!isNewPost"
-          #footer
-        >
+        <template v-if="!isNewPost" #footer>
           <ul class="text-xs text-gray-500 leading-relaxed">
             <li v-if="itemData[currentCollectionPrimaryKeyField]">
               Item ID: {{ itemData[currentCollectionPrimaryKeyField] }}
@@ -194,20 +148,14 @@ onMounted(() => {
               Updated at: {{ updatedAt }}
             </li>
           </ul>
-          <div class="flex gap-4 mt-4">
-            <UButton
-              color="white"
-              @click="showDeletionModal = true"
-            >
+          <div class="flex gap-4 mt-4" v-if="ui.collections[view.current.value.collection].delete">
+            <UButton color="white" @click="showDeletionModal = true">
               Delete
             </UButton>
           </div>
         </template>
       </UCard>
     </UForm>
-    <EditorDeletionModal
-      v-model="showDeletionModal"
-      @delete="onDelete"
-    />
+    <EditorDeletionModal v-model="showDeletionModal" @delete="onDelete" />
   </EditorSection>
 </template>

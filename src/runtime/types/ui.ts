@@ -1,11 +1,28 @@
 import type { EditableCollectionKey } from ".";
 
+export const uiDefaults = {
+    search: true,
+    create: true,
+    delete: true,
+    update: true,
+    logo: null,
+    collections: {}
+}
+
 export interface EditableUIConfig {
     /**
      * Globally enables search field in the UI
      * @default false
      */
     search?: boolean;
+
+    /**
+     * Globally enables/disabled operations in the UI
+     * @default true
+     */
+    create?: boolean;
+    delete?: boolean;
+    update?: boolean;
 
     /**
      * Set a path to a custom logo for the UI

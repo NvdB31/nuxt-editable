@@ -58,11 +58,7 @@ const onEditorChangeData = async (event: EditableChangeEvent) => {
 
 <template>
   <NuxtEditableWelcome />
-  <NuxtEditableEditor
-    :user="currentEditorUser"
-    :data="currentEditorData"
-    :pending="isPendingEditorData"
-    @change="onEditorChangeData"
-    @request-data="onEditorRequestData"
-  />
+  <NuxtEditableEditor :user="currentEditorUser" :data="currentEditorData" :pending="isPendingEditorData"
+    @change="onEditorChangeData" @request-data="onEditorRequestData">
+  </NuxtEditableEditor>
 </template>

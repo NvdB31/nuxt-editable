@@ -1,6 +1,7 @@
 import type { EditableCollectionKey, EditableViewType, EditableView, EditableLogEvent } from "~/src/runtime/types";
 import { ref, computed } from 'vue'
 import { useRouter, useRoute, useState, useRuntimeConfig } from '#imports'
+import { resolveUIConfig } from '../utilities/editor'
 
 const isEditorCollapsed = ref(true)
 
@@ -49,7 +50,7 @@ export const useEditor = () => {
             },
         },
         collections,
-        ui: config.public.editable.ui,
+        ui: resolveUIConfig(config.public.editable.collections, config.public.editable.ui),
 
         log: (event: EditableLogEvent) => {
             if (!config.public.editable.log) return
