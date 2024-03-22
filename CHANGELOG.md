@@ -1,4 +1,20 @@
 
+## v0.0.15
+
+[compare changes](https://github.com/NvdB31/nuxt-editable/compare/v0.0.14...v0.0.15)
+
+### 🚀 Enhancements
+
+- Slots, ui options ([fa4bb7b](https://github.com/NvdB31/nuxt-editable/commit/fa4bb7b))
+
+### 🏡 Chore
+
+- Update readme, dynamic highlighter directive keys ([709cc80](https://github.com/NvdB31/nuxt-editable/commit/709cc80))
+
+### ❤️ Contributors
+
+- Nick Van Den Berg ([@NvdB31](http://github.com/NvdB31))
+
 ## v0.0.14
 
 [compare changes](https://github.com/NvdB31/nuxt-editable/compare/v0.0.13...v0.0.14)
