@@ -54,7 +54,7 @@ export const useEditor = () => {
 
         log: (event: EditableLogEvent) => {
             if (!config.public.editable.log) return
-            console[event.severity](`[Nuxt Editable] ${event.message}`)
+            console[event.severity](`[Nuxt Editable] ${event.message}`, event.context || '')
         },
 
         user: useState('editableEditorUser', () => null)

@@ -102,6 +102,7 @@ export interface EditableItem {
 export interface EditableLogEvent {
   severity: 'info' | 'warn' | 'error';
   message: string;
+  context?: any;
 }
 
 export interface EditableEditorProps {
